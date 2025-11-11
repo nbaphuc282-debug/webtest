@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English With Me - Website Học Tiếng Anh (v6 - Giao diện mới)</title>
+    <!-- CẬP NHẬT: Tiêu đề mới -->
+    <title>English With Me - Website Học Tiếng Anh (v7 - Nội dung mở rộng)</title>
     
     <!-- Nhúng font Inter & Pacifico từ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Pacifico&display=swap" rel="stylesheet">
     
-    <!-- MỚI: Nhúng Tailwind CSS -->
+    <!-- Nhúng Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- CẬP NHẬT: Cấu hình Tailwind (tùy chọn, nhưng hữu ích) -->
+    <!-- Cấu hình Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -42,7 +43,6 @@
     <style>
         /* Cài đặt chung & Reset */
         :root {
-            /* CẬP NHẬT: Bảng màu mới, thân thiện hơn */
             --primary-color: #0ea5e9; /* Tailwind sky-500 */
             --primary-hover: #0284c7; /* Tailwind sky-600 */
             --light-blue-bg: #f0f9ff; /* Tailwind sky-50 */
@@ -63,7 +63,6 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            /* CẬP NHẬT: Sử dụng màu nền nhẹ nhàng hơn */
             background-color: var(--bg-soft);
             color: var(--dark-text);
             line-height: 1.6;
@@ -71,7 +70,7 @@
 
         /* 1. Các thành phần chung */
 
-        /* Top Bar (Đăng nhập/Đăng ký) */
+        /* Top Bar */
         .top-bar {
             background-color: #1e293b; /* Tailwind slate-800 */
             color: white;
@@ -92,12 +91,11 @@
             opacity: 0.8;
         }
 
-        /* Header (Logo) */
+        /* Header */
         .header {
             background-color: white;
             text-align: center;
             padding: 25px 20px;
-            /* CẬP NHẬT: Thêm bóng mờ nhẹ */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
@@ -109,7 +107,7 @@
             text-decoration: none;
         }
 
-        /* Navbar (Menu) */
+        /* Navbar */
         .navbar {
             background-color: #334155; /* Tailwind slate-700 */
             padding: 10px 0;
@@ -128,7 +126,7 @@
             font-weight: 700;
             transition: background-color 0.3s;
             cursor: pointer;
-            border-radius: 6px; /* Bo góc nhẹ cho menu */
+            border-radius: 6px; 
             margin: 0 4px;
         }
 
@@ -137,7 +135,7 @@
             background-color: #475569; /* Tailwind slate-600 */
         }
 
-        /* Footer (Chân trang) */
+        /* Footer */
         .footer {
             background-color: #e2e8f0; /* Tailwind slate-200 */
             color: #475569; /* Tailwind slate-600 */
@@ -150,14 +148,13 @@
 
         /* 2. Cấu trúc trang (Page) */
 
-        /* Container cho các trang con */
+        /* Container */
         .subpage-container {
             max-width: 1200px;
             margin: 30px auto;
-            /* CẬP NHẬT: Thêm padding lớn hơn, bo góc và bóng mờ hiện đại */
             padding: 2rem 1.5rem; /* 32px 24px */
             background-color: white;
-            border-radius: 1.5rem; /* 24px, bo góc lớn */
+            border-radius: 1.5rem; /* 24px */
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
@@ -169,46 +166,41 @@
 
         .subpage-container h1 {
             text-align: center;
-            /* CẬP NHẬT: Chữ to, đậm hơn */
             font-size: 2.25rem; /* 36px */
             font-weight: 800;
             color: #000;
             margin-bottom: 30px;
         }
 
-        /* Mặc định ẩn tất cả các trang */
+        /* Page visibility */
         .page {
             display: none;
         }
-        /* Hiển thị trang có class 'active' */
         .page.active {
             display: block;
         }
 
-        /* Nút chung (CẬP NHẬT với Tailwind @apply) */
+        /* Nút chung */
         .btn {
             display: inline-block;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 24px; /* Tăng padding */
-            border-radius: 0.75rem; /* 12px, bo góc lớn */
+            padding: 12px 24px; 
+            border-radius: 0.75rem; /* 12px */
             cursor: pointer;
             font-weight: 700;
             text-decoration: none;
-            /* CẬP NHẬT: Thêm hiệu ứng bóng và transition */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease-in-out;
         }
 
         .btn:hover {
             background-color: var(--primary-hover);
-            /* CẬP NHẬT: Hiệu ứng nhấc lên khi hover */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             transform: translateY(-2px);
         }
         
-        /* MỚI: CSS cho nút bị vô hiệu hóa */
         .btn:disabled {
             background-color: #94a3b8; /* Tailwind slate-400 */
             cursor: not-allowed;
@@ -240,7 +232,6 @@
         }
 
         .hero-content h2 {
-            /* CẬP NHẬT: Chữ to, đậm, màu sắc ấn tượng */
             font-size: 2.5em; /* 40px */
             color: #1e3a8a; /* Tailwind blue-900 */
             font-weight: 800; /* Extra-bold */
@@ -262,7 +253,7 @@
 
         .welcome h2 {
             font-size: 2em;
-            font-weight: 700; /* Thêm độ đậm */
+            font-weight: 700; 
             color: #000;
             margin-bottom: 15px;
         }
@@ -287,7 +278,7 @@
             flex-wrap: wrap;
         }
 
-        /* Thẻ tính năng (CẬP NHẬT) */
+        /* Thẻ tính năng */
         .feature-card {
             background-color: white;
             border-radius: 1rem; /* 16px */
@@ -297,7 +288,6 @@
             text-align: center;
             text-decoration: none;
             color: var(--dark-text);
-            /* CẬP NHẬT: Hiệu ứng transition mượt hơn */
             transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
@@ -315,16 +305,13 @@
             margin-bottom: 15px;
         }
         
-        /* MỚI: CSS cho icon trong feature card */
         .feature-card-icon {
             width: 64px;
             height: 64px;
             margin: 0 auto 20px auto;
-            /* Căn icon SVG bên trong */
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Màu nền icon */
             background-color: var(--light-blue-bg);
             border-radius: 50%;
         }
@@ -334,7 +321,7 @@
             color: var(--primary-color);
         }
         
-        /* MỚI: CSS TÍNH NĂNG TỪ VỰNG MỖI NGÀY (AI) (CẬP NHẬT) */
+        /* Tính năng Từ vựng mỗi ngày (AI) */
         .word-of-the-day {
             background-color: var(--ai-bg);
             padding: 60px 20px;
@@ -342,7 +329,7 @@
         }
         .word-of-the-day h2 {
             font-size: 2em;
-            font-weight: 700; /* Thêm độ đậm */
+            font-weight: 700; 
             color: var(--ai-purple);
             margin-top: 0;
             margin-bottom: 30px;
@@ -360,7 +347,7 @@
             align-items: center;
         }
         
-        /* Spinner CSS (CẬP NHẬT: Dùng Tailwind classes trong HTML) */
+        /* Spinner CSS */
         .loader {
             width: 50px;
             height: 50px;
@@ -430,7 +417,7 @@
             display: none;
         }
 
-        /* Điều chỉnh layout cho màn hình lớn hơn */
+        /* Layout AI cho màn hình lớn */
         @media (min-width: 768px) {
             .word-container {
                 grid-template-columns: 300px 1fr;
@@ -443,7 +430,7 @@
         }
 
 
-        /* 4. Trang Video Hướng Dẫn (CẬP NHẬT) */
+        /* 4. Trang Video Hướng Dẫn */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -470,6 +457,7 @@
             height: 170px;
             object-fit: cover;
             display: block;
+            background-color: #f3f4f6; /* Nền mờ khi tải */
         }
 
         .video-item-content {
@@ -486,7 +474,7 @@
             color: var(--medium-text);
         }
 
-        /* 5. Trang Đề Ôn Thi (CẬP NHẬT) */
+        /* 5. Trang Đề Ôn Thi */
         .test-list {
             display: flex;
             flex-direction: column;
@@ -522,7 +510,7 @@
             color: var(--medium-text);
         }
 
-        /* General Content Grid (for Cambridge/Global Success) (CẬP NHẬT) */
+        /* Lưới nội dung chung (Cambridge/Global Success) */
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -536,7 +524,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease-in-out;
             text-align: center;
-            padding-bottom: 20px; /* Di chuyển padding xuống dưới */
+            padding-bottom: 20px; 
         }
         .content-item:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -550,7 +538,7 @@
             background-color: #f3f4f6;
         }
         .content-item-text {
-            padding: 0 20px; /* Thêm padding cho text */
+            padding: 0 20px; 
         }
         .content-item h3 {
             margin-top: 0;
@@ -561,7 +549,7 @@
             margin-top: 15px;
         }
         
-        /* Icon hoàn thành bài học */
+        /* Icon hoàn thành */
         .completion-icon {
             color: var(--success-green);
             font-weight: bold;
@@ -569,8 +557,7 @@
             font-size: 1.2em;
         }
 
-
-        /* Lesson Page Content */
+        /* Trang bài học */
         .lesson-section {
             margin-bottom: 30px;
             padding-bottom: 20px;
@@ -586,7 +573,7 @@
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 5px;
             display: inline-block;
-            font-weight: 700; /* Thêm độ đậm */
+            font-weight: 700; 
         }
         .lesson-section ul {
             list-style-type: disc;
@@ -598,7 +585,48 @@
             color: var(--medium-text);
         }
         
-        /* Nút hoàn thành bài học */
+        /* MỚI: CSS CHO DANH SÁCH TỪ VỰNG CÓ HÌNH ẢNH */
+        .vocab-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .vocab-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 15px;
+            text-align: center;
+            background-color: #f9fafb;
+            transition: all 0.2s ease-in-out;
+        }
+        .vocab-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .vocab-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 10px;
+            background-color: var(--light-blue-bg);
+        }
+        .vocab-item strong {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            display: block;
+        }
+        .vocab-item p {
+            margin: 5px 0 0 0;
+            font-size: 1em;
+            color: var(--medium-text);
+        }
+        /* KẾT THÚC CSS MỚI */
+        
+        /* Nút hoàn thành */
         .btn-complete {
             background-color: var(--success-green);
             margin-top: 20px;
@@ -616,7 +644,7 @@
             opacity: 0.8;
         }
 
-        /* 6. Trang Game Ôn Tập (CẬP NHẬT) */
+        /* 6. Trang Game Ôn Tập */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -647,7 +675,7 @@
         }
         
         .game-card-text {
-             padding: 0 20px; /* Thêm padding cho text */
+             padding: 0 20px; 
         }
 
         .game-card h3 {
@@ -697,11 +725,15 @@
                 max-width: none;
                 height: 150px;
             }
+            /* MỚI: Responsive cho vocab list */
+            .vocab-list {
+                grid-template-columns: 1fr;
+            }
         }
         
         /* 8. CSS TÍNH NĂNG MỚI (Cũ) */
         
-        /* Form Đăng nhập / Đăng ký (CẬP NHẬT) */
+        /* Form Đăng nhập / Đăng ký */
         .auth-form-container {
             max-width: 450px;
             margin: 40px auto;
@@ -718,7 +750,6 @@
             margin-bottom: 5px;
             font-weight: 700;
         }
-        /* CẬP NHẬT: Input field hiện đại hơn */
         .form-group input {
             width: 100%;
             padding: 12px;
@@ -769,7 +800,7 @@
             border: 1px solid #fecaca;
         }
 
-        /* Video Modal (CẬP NHẬT) */
+        /* Video Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -821,7 +852,7 @@
             height: 100%;
         }
         
-        /* Trang Quiz (CẬP NHẬT) */
+        /* Trang Quiz */
         .quiz-question-text {
             font-size: 1.5em;
             font-weight: 700;
@@ -867,7 +898,7 @@
             font-size: 1.2em;
         }
         
-        /* Khu vực bình luận (CẬP NHẬT) */
+        /* Khu vực bình luận */
         .comment-section {
             margin-top: 40px;
             border-top: 2px solid #e5e7eb;
@@ -925,7 +956,7 @@
             margin-top: -5px; 
         }
 
-        /* Trang Game Flashcard (CẬP NHẬT) */
+        /* Trang Game Flashcard */
         .flashcard-controls {
             display: flex;
             justify-content: space-between;
@@ -989,7 +1020,7 @@
             cursor: default;
         }
         
-        /* CSS CHO GAME NỐI TỪ (WORD CONNECT) (CẬP NHẬT) */
+        /* CSS CHO GAME NỐI TỪ (WORD CONNECT) */
         .wc-game-area {
             display: flex;
             justify-content: space-around;
@@ -1084,7 +1115,7 @@
             font-weight: bold;
         }
 
-        /* CSS CHO GAME ĐIỀN VÀO CHỖ TRỐNG (FILL BLANK) (CẬP NHẬT) */
+        /* CSS CHO GAME ĐIỀN VÀO CHỖ TRỐNG (FILL BLANK) */
         .fb-game-container {
             max-width: 800px;
             margin: 0 auto;
@@ -1144,7 +1175,7 @@
             margin-bottom: 20px;
         }
         
-        /* CSS Bảng Xếp Hạng (CẬP NHẬT) */
+        /* CSS Bảng Xếp Hạng */
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
@@ -1182,7 +1213,6 @@
         
     </style>
 </head>
-<!-- CẬP NHẬT: Thêm class nền chung -->
 <body class="bg-slate-50">
 
     <!-- PHẦN 1: CÁC THÀNH PHẦN CHUNG -->
@@ -1216,10 +1246,9 @@
         <!-- Trang 1: Home (Mặc định hiển thị) -->
         <div id="page-home" class="page active">
             
-            <!-- Hero Section (CẬP NHẬT) -->
+            <!-- Hero Section -->
             <section class="hero">
                 <div class="hero-content">
-                    <!-- CẬP NHẬT: class Tailwind để chữ to, đậm hơn -->
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-sky-800">
                         ENGLISH LEARNING WEBSITE FOR GRADE 5<br>
                         CAMBRIDGE PROGRAM -<br>
@@ -1239,14 +1268,13 @@
                 </p>
             </section>
             
-            <!-- TÍNH NĂNG TỪ VỰNG MỖI NGÀY (AI) (CẬP NHẬT) -->
+            <!-- TÍNH NĂNG TỪ VỰNG MỖI NGÀY (AI) -->
             <section class="word-of-the-day">
                 <h2>Từ vựng mỗi ngày</h2>
                 <div class="word-container">
                     
-                    <!-- Trạng thái Loading (CẬP NHẬT: Dùng spinner Tailwind) -->
+                    <!-- Trạng thái Loading -->
                     <div id="word-loading">
-                        <!-- Spinner mới -->
                         <div class="flex justify-center items-center h-full">
                             <div class="loader animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-500"></div>
                         </div>
@@ -1255,9 +1283,8 @@
                     
                     <!-- Nội dung sau khi tải -->
                     <div id="word-display" style="display: none;">
-                        <!-- CẬP NHẬT: Thêm class animate-pulse cho ảnh lúc chờ load -->
                         <div class="word-image-container bg-slate-200">
-                            <img id="word-image" src="" alt="Hình ảnh minh họa cho từ vựng" class="transition-opacity duration-500 opacity-0">
+                            <img id="word-image" src="" alt="Hình ảnh minh họa cho từ vựng" class="transition-opacity duration-500 opacity-0" onerror="this.src='https://placehold.co/300x250/fef2f2/dc2626?text=Lỗi+Tải+Ảnh'">
                         </div>
                         <div class="word-content">
                             <h3 id="word-term"></h3>
@@ -1277,9 +1304,8 @@
             <section class="features">
                 <div class="feature-grid">
                     
-                    <!-- Thẻ 1: Link đến trang Video (Thêm Icon) -->
+                    <!-- Thẻ 1: Link đến trang Video -->
                     <a href="#" onclick="showPage('videos')" class="feature-card">
-                        <!-- MỚI: Icon -->
                         <div class="feature-card-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
@@ -1289,9 +1315,8 @@
                         <p>Giải thích trực quan từng chủ đề, minh họa bằng ví dụ thực tế.</p>
                     </a>
                     
-                    <!-- Thẻ 2: Link đến trang Đề thi (Thêm Icon) -->
+                    <!-- Thẻ 2: Link đến trang Đề thi -->
                     <a href="#" onclick="showPage('tests')" class="feature-card">
-                        <!-- MỚI: Icon -->
                         <div class="feature-card-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
@@ -1301,9 +1326,8 @@
                         <p>Hệ thống đề thi được chọn lọc, giúp bạn luyện tập và kiểm tra năng lực thật sát thực tế.</p>
                     </a>
                     
-                    <!-- Thẻ 3: Link đến trang Game (Thêm Icon) -->
+                    <!-- Thẻ 3: Link đến trang Game -->
                     <a href="#" onclick="showPage('games')" class="feature-card">
-                        <!-- MỚI: Icon -->
                         <div class="feature-card-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
@@ -1317,14 +1341,14 @@
 
         </div> <!-- Kết thúc #page-home -->
 
-        <!-- Trang 2: Video Hướng Dẫn -->
+        <!-- Trang 2: Video Hướng Dẫn (CẬP NHẬT: THÊM VIDEO) -->
         <div id="page-videos" class="page">
             <div class="subpage-container">
                 <h1>Video Hướng Dẫn</h1>
                 <div class="video-grid">
                     <!-- Video item 1 -->
                     <div class="video-item" onclick="openVideoModal('Bài 1: Thì Hiện tại đơn (Present Simple)', '2rohVIy3v1U')">
-                        <img src="https://img.youtube.com/vi/2rohVIy3v1U/hqdefault.jpg" alt="Thumbnail video 1">
+                        <img src="https://img.youtube.com/vi/2rohVIy3v1U/hqdefault.jpg" alt="Thumbnail video 1" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="video-item-content">
                             <h3>Bài 1: Thì Hiện tại đơn (Present Simple)</h3>
                             <p>Mô tả ngắn về nội dung video, cách sử dụng và các ví dụ cơ bản.</p>
@@ -1332,7 +1356,7 @@
                     </div>
                     <!-- Video item 2 -->
                     <div class="video-item" onclick="openVideoModal('Bài 2: Từ vựng chủ đề Động vật (Animals)', 'aC8v4Cb19hc')">
-                        <img src="https://img.youtube.com/vi/aC8v4Cb19hc/hqdefault.jpg" alt="Thumbnail video 2">
+                        <img src="https://img.youtube.com/vi/aC8v4Cb19hc/hqdefault.jpg" alt="Thumbnail video 2" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="video-item-content">
                             <h3>Bài 2: Từ vựng chủ đề Động vật (Animals)</h3>
                             <p>Học từ vựng về các loài động vật hoang dã và vật nuôi.</p>
@@ -1340,7 +1364,7 @@
                     </div>
                     <!-- Video item 3 -->
                     <div class="video-item" onclick="openVideoModal('Bài 3: Cấu trúc There is / There are', '4QGP1jsUims')">
-                        <img src="https://img.youtube.com/vi/4QGP1jsUims/hqdefault.jpg" alt="Thumbnail video 3">
+                        <img src="https://img.youtube.com/vi/4QGP1jsUims/hqdefault.jpg" alt="Thumbnail video 3" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="video-item-content">
                             <h3>Bài 3: Cấu trúc "There is / There are"</h3>
                             <p>Cách sử dụng cấu trúc chỉ sự tồn tại của sự vật, sự việc.</p>
@@ -1348,17 +1372,49 @@
                     </div>
                     <!-- Video item 4 -->
                     <div class="video-item" onclick="openVideoModal('Bài 4: Giới từ chỉ nơi chốn (Prepositions)', '-J0MjpK93UE')">
-                        <img src="https://img.youtube.com/vi/-J0MjpK93UE/hqdefault.jpg" alt="Thumbnail video 4">
+                        <img src="https://img.youtube.com/vi/-J0MjpK93UE/hqdefault.jpg" alt="Thumbnail video 4" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="video-item-content">
                             <h3>Bài 4: Giới từ chỉ nơi chốn (Prepositions)</h3>
                             <p>Học các giới từ phổ biến: in, on, at, under, behind...</p>
+                        </div>
+                    </div>
+                    <!-- MỚI: Video item 5 -->
+                    <div class="video-item" onclick="openVideoModal('Truyện Tiếng Anh: The Ant and the Grasshopper', '9Rk8qGq201c')">
+                        <img src="https://img.youtube.com/vi/9Rk8qGq201c/hqdefault.jpg" alt="Thumbnail video 5" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="video-item-content">
+                            <h3>Truyện Tiếng Anh: The Ant and the Grasshopper</h3>
+                            <p>Luyện nghe qua câu chuyện ngụ ngôn "Kiến và Châu chấu".</p>
+                        </div>
+                    </div>
+                    <!-- MỚI: Video item 6 -->
+                    <div class="video-item" onclick="openVideoModal('Bài hát: Thì Quá khứ đơn (Past Simple)', 'J3_fG-QdCgY')">
+                        <img src="https://img.youtube.com/vi/J3_fG-QdCgY/hqdefault.jpg" alt="Thumbnail video 6" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="video-item-content">
+                            <h3>Bài hát: Thì Quá khứ đơn (Past Simple)</h3>
+                            <p>Học ngữ pháp thì Quá khứ đơn qua một bài hát vui nhộn.</p>
+                        </div>
+                    </div>
+                    <!-- MỚI: Video item 7 -->
+                    <div class="video-item" onclick="openVideoModal('Bài hát: Thời tiết (The Weather Song)', 'e5UT2-n1Yto')">
+                        <img src="https://img.youtube.com/vi/e5UT2-n1Yto/hqdefault.jpg" alt="Thumbnail video 7" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="video-item-content">
+                            <h3>Bài hát: Thời tiết (The Weather Song)</h3>
+                            <p>Học từ vựng về chủ đề thời tiết qua bài hát.</p>
+                        </div>
+                    </div>
+                    <!-- MỚI: Video item 8 -->
+                    <div class="video-item" onclick="openVideoModal('Ngữ pháp: How much / How many', '9vH-Hj1gY2I')">
+                        <img src="https://img.youtube.com/vi/9vH-Hj1gY2I/hqdefault.jpg" alt="Thumbnail video 8" onerror="this.src='https://placehold.co/300x170/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="video-item-content">
+                            <h3>Ngữ pháp: How much / How many</h3>
+                            <p>Phân biệt cách dùng "How much" và "How many" cho danh từ đếm được và không đếm được.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div> <!-- Kết thúc #page-videos -->
 
-        <!-- Trang 3: Tổng Hợp Đề Ôn Thi -->
+        <!-- Trang 3: Tổng Hợp Đề Ôn Thi (CẬP NHẬT: THÊM ĐỀ) -->
         <div id="page-tests" class="page">
             <div class="subpage-container">
                 <h1>Tổng Hợp Đề Ôn Thi</h1>
@@ -1387,7 +1443,23 @@
                         </div>
                         <button class="btn" onclick="startQuiz('vocab1-2')">Bắt đầu làm bài</button>
                     </div>
-                    <!-- Test item 4 -->
+                    <!-- MỚI: Test item 4 -->
+                    <div class="test-item">
+                        <div class="test-info">
+                            <h3>Đề kiểm tra 15 phút - Unit 3: Holiday</h3>
+                            <p>Thời gian: 15 phút | Số câu hỏi: 10</p>
+                        </div>
+                        <button class="btn" onclick="startQuiz('unit3')">Bắt đầu làm bài</button>
+                    </div>
+                    <!-- MỚI: Test item 5 -->
+                    <div class="test-item">
+                        <div class="test-info">
+                            <h3>Đề kiểm tra 15 phút - Unit 4: Food</h3>
+                            <p>Thời gian: 15 phút | Số câu hỏi: 10</p>
+                        </div>
+                        <button class="btn" onclick="startQuiz('unit4')">Bắt đầu làm bài</button>
+                    </div>
+                    <!-- Test item 6 (cũ 4) -->
                     <div class="test-item">
                         <div class="test-info">
                             <h3>Đề thi cuối kỳ 1</h3>
@@ -1395,7 +1467,7 @@
                         </div>
                         <button class="btn" onclick="startQuiz('finalterm1')">Bắt đầu làm bài</button>
                     </div>
-                    <!-- Test item 5 -->
+                    <!-- Test item 7 (cũ 5) -->
                     <div class="test-item">
                         <div class="test-info">
                             <h3>Đề thi giữa kỳ 2</h3>
@@ -1407,14 +1479,14 @@
             </div>
         </div> <!-- Kết thúc #page-tests -->
 
-        <!-- Trang 4: Game Ôn Tập -->
+        <!-- Trang 4: Game Ôn Tập (CẬP NHẬT: HÌNH ẢNH) -->
         <div id="page-games" class="page">
             <div class="subpage-container">
                 <h1>Game Ôn Tập Thú Vị</h1>
                 <div class="game-grid">
                     <!-- Game card 1 -->
                     <div class="game-card">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Game+1" alt="Icon game Lật thẻ">
+                        <img src="https://img.freepik.com/free-vector/memory-game-concept-illustration_114360-8431.jpg?w=740&t=st=1731310052~exp=1731310652~hmac=621743666d2146c8207908c69e8f49774d6c4422e1777218684eb2e91242337a" alt="Icon game Lật thẻ" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="game-card-text">
                             <h3>Lật thẻ từ vựng</h3>
                             <button class="btn" onclick="startGame('flashcard')">Chơi ngay</button>
@@ -1422,7 +1494,7 @@
                     </div>
                     <!-- Game card 2 -->
                     <div class="game-card">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Game+2" alt="Icon game Nối từ">
+                        <img src="https://img.freepik.com/free-vector/word-game-concept-illustration_114360-19200.jpg?w=740&t=st=1731310080~exp=1731310680~hmac=e907d08b350614838e12f9b88f34cc5110d7a7833acb86a117b0797960717b02" alt="Icon game Nối từ" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="game-card-text">
                             <h3>Nối từ (Word Connect)</h3>
                             <button class="btn" onclick="startGame('wordconnect')">Chơi ngay</button>
@@ -1430,7 +1502,7 @@
                     </div>
                     <!-- Game card 3 -->
                     <div class="game-card">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Game+3" alt="Icon game Điền từ">
+                        <img src="https://img.freepik.com/free-vector/reading-concept-illustration_114360-1798.jpg?w=740&t=st=1731310113~exp=1731310713~hmac=50669b91705e81f14de2d91977926e8557c4c372f77341857948a43f8e4e9f73" alt="Icon game Điền từ" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="game-card-text">
                             <h3>Điền vào chỗ trống</h3>
                             <button class="btn" onclick="startGame('fillblank')">Chơi ngay</button>
@@ -1511,7 +1583,7 @@
                 <h1>Game: Điền vào chỗ trống</h1>
                 
                 <div id="fb-game-area" class="fb-game-container">
-                    <p id="fb-progress">Câu 1 / 3</p>
+                    <p id="fb-progress">Câu 1 / 10</p>
                     <div id="fb-sentence-container">
                         <span id="fb-sentence-start"></span>
                         <input type="text" id="fb-input" autocomplete="off" autocorrect="off">
@@ -1523,7 +1595,7 @@
 
                 <div id="fb-results" class="fb-game-container" style="display: none;">
                     <h2>Hoàn thành!</h2>
-                    <p id="fb-results-score">Bạn đúng 0 / 3 câu.</p>
+                    <p id="fb-results-score">Bạn đúng 0 / 10 câu.</p>
                     <button id="fb-restart-btn" class="btn">Chơi lại</button>
                 </div>
 
@@ -1579,7 +1651,7 @@
             </div>
         </div> <!-- Kết thúc #page-register -->
 
-        <!-- Trang 9: Cambridge -->
+        <!-- Trang 9: Cambridge (CẬP NHẬT: THÊM UNITS & HÌNH ẢNH) -->
         <div id="page-cambridge" class="page">
             <div class="subpage-container">
                 <h1>Chương trình Cambridge</h1>
@@ -1589,7 +1661,7 @@
                 <div class="content-grid">
                     <!-- Unit Item 1 -->
                     <div class="content-item">
-                        <img src="https://i.pinimg.com/736x/9f/73/2c/9f732c0a0cfd337c324c53d8ab917651.jpg" alt="Unit 1">
+                        <img src="https://img.freepik.com/free-vector/children-reading-books-classroom_1308-111100.jpg?w=996&t=st=1731310344~exp=1731310944~hmac=b5643a6d90d70da15714c38234676527582b1b7024227f3006d649987814b7aa" alt="Unit 1: Our School" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="content-item-text">
                             <h3>Unit 1: Our School <span class="completion-icon" id="icon-cambridge-unit1"></span></h3>
                             <p class="text-slate-500 text-sm">Từ vựng về trường học, các môn học và hoạt động.</p>
@@ -1598,7 +1670,7 @@
                     </div>
                     <!-- Unit Item 2 -->
                     <div class="content-item">
-                        <img src="https://cdn.who.int/media/images/default-source/initiatives/uhc-advice/who-cards-08-healthy-world-01.tmb-1920v.jpg?sfvrsn=6fe14dc7_4" alt="Unit 2">
+                        <img src="https://img.freepik.com/free-vector/happy-family-theme_23-2148946220.jpg?w=826&t=st=1731310377~exp=1731310977~hmac=a48ef89f36b69b82874136656885e33d26002ca16e680e07fa1f2f8405d5c077" alt="Unit 2: Family and Friends" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="content-item-text">
                             <h3>Unit 2: Family and Friends <span class="completion-icon" id="icon-cambridge-unit2"></span></h3>
                             <p class="text-slate-500 text-sm">Từ vựng về gia đình, bạn bè và các mối quan hệ.</p>
@@ -1607,18 +1679,45 @@
                     </div>
                     <!-- Unit Item 3 -->
                     <div class="content-item">
-                        <img src="https://thumbs.dreamstime.com/b/earth-cartoon-hovering-over-mountain-valley-landscape-sunset-cartoon-earth-face-floats-above-valley-mountains-386459747.jpg" alt="Unit 3">
+                        <img src="https://img.freepik.com/free-vector/hand-drawn-world-environment-day-illustration_23-2148937962.jpg?w=996&t=st=1731310410~exp=1731311010~hmac=dae8d38865ed3b4f620e4eb1e62635951d8b2d1858a7da7c570b77fa8f6424e4" alt="Unit 3: The World Around Us" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="content-item-text">
                             <h3>Unit 3: The World Around Us <span class="completion-icon" id="icon-cambridge-unit3"></span></h3>
                             <p class="text-slate-500 text-sm">Khám phá thế giới tự nhiên, động vật và môi trường.</p>
                             <button class="btn" onclick="showPage('cambridge-unit3', 'cambridge')">Vào học</button>
                         </div>
                     </div>
+                    <!-- MỚI: Unit Item 4 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/physical-activity-healthy-lifestyle-recreation-leisure-children-exercising-doing-sports-cartoon-characters-kids-playing-outdoors-vector-isolated-concept-metaphor-illustration_335657-2122.jpg?w=996&t=st=1731310452~exp=1731311052~hmac=7a591e604f7c134015c6130d22380d0d84457e3f2268fa3d420a969f6e693175" alt="Unit 4: Health and Habits" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 4: Sức khỏe & Thói quen <span class="completion-icon" id="icon-cambridge-unit4"></span></h3>
+                            <p class="text-slate-500 text-sm">Học về cơ thể, đồ ăn tốt cho sức khỏe và thói quen tốt.</p>
+                            <button class="btn" onclick="showPage('cambridge-unit4', 'cambridge')">Vào học</button>
+                        </div>
+                    </div>
+                    <!-- MỚI: Unit Item 5 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/city-life-scene-with-people-walking-doing-activities-front-shops_179970-652.jpg?w=996&t=st=1731310486~exp=1731311086~hmac=e2023d8c199589d6e27303d8d5dfd1f114631d87e0892095cc19ce925695ab82" alt="Unit 5: My Town" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 5: Thị trấn của tôi <span class="completion-icon" id="icon-cambridge-unit5"></span></h3>
+                            <p class="text-slate-500 text-sm">Các địa điểm trong thị trấn: cửa hàng, trạm xe, công viên.</p>
+                            <button class="btn" onclick="showPage('cambridge-unit5', 'cambridge')">Vào học</button>
+                        </div>
+                    </div>
+                    <!-- MỚI: Unit Item 6 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/summer-kids_10308-142.jpg?w=740&t=st=1731310515~exp=1731311115~hmac=b8801d011118fa30f1ec373c05903b44b8296a63583c21a11584c2f82c499f5d" alt="Unit 6: Holidays and Travel" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 6: Kỳ nghỉ & Du lịch <span class="completion-icon" id="icon-cambridge-unit6"></span></h3>
+                            <p class="text-slate-500 text-sm">Các hoạt động trong kỳ nghỉ, phương tiện đi lại.</p>
+                            <button class="btn" onclick="showPage('cambridge-unit6', 'cambridge')">Vào học</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- Kết thúc #page-cambridge -->
 
-        <!-- Trang 10: Global Success -->
+        <!-- Trang 10: Global Success (CẬP NHẬT: THÊM UNITS & HÌNH ẢNH) -->
         <div id="page-globalsuccess" class="page">
             <div class="subpage-container">
                 <h1>Chương trình Global Success (Lớp 5)</h1>
@@ -1628,7 +1727,7 @@
                 <div class="content-grid">
                     <!-- Unit Item 1 -->
                     <div class="content-item">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Unit+1" alt="Unit 1">
+                        <img src="https://img.freepik.com/free-vector/street-view-scene-with-many-shops-road_1308-56837.jpg?w=996&t=st=1731310574~exp=1731311174~hmac=d243a411cf7178c78ccb21c439169647206132039a7b51e06d9d1e1f133e9d72" alt="Unit 1: What's your address?" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="content-item-text">
                             <h3>Unit 1: What's your address? <span class="completion-icon" id="icon-globalsuccess-unit1"></span></h3>
                             <p class="text-slate-500 text-sm">Học cách hỏi và trả lời về địa chỉ.</p>
@@ -1637,7 +1736,7 @@
                     </div>
                     <!-- Unit Item 2 -->
                     <div class="content-item">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Unit+2" alt="Unit 2">
+                        <img src="https://img.freepik.com/free-vector/daily-routine-concept-illustration_114360-7043.jpg?w=740&t=st=1731310609~exp=1731311209~hmac=553c3e21ef28fcc2bc2a4e21a8f9b7c8911f99c852445e994e63d6b05be3b6aa" alt="Unit 2: I always get up early" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                          <div class="content-item-text">
                             <h3>Unit 2: I always get up early <span class="completion-icon" id="icon-globalsuccess-unit2"></span></h3>
                             <p class="text-slate-500 text-sm">Nói về các thói quen và hoạt động hàng ngày.</p>
@@ -1646,30 +1745,57 @@
                     </div>
                     <!-- Unit Item 3 -->
                     <div class="content-item">
-                        <img src="https://placehold.co/300x150/e0f7fa/0284c7?text=Unit+3" alt="Unit 3">
+                        <img src="https://img.freepik.com/free-vector/ha-long-bay-landscape-scene_1308-58137.jpg?w=996&t=st=1731310639~exp=1731311239~hmac=298066f1082c49e2954a67ed9d74a1239857d4b04f767c2963d08f7ce6231c50" alt="Unit 3: Where did you go on holiday?" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
                         <div class="content-item-text">
-                            <h3>Unit 3: Where did you go on holiday? <span class="completion-icon" id="icon-globalsuccess-unit3"></span></h3>
+                            <h3>Unit 3: Where did you go... <span class="completion-icon" id="icon-globalsuccess-unit3"></span></h3>
                             <p class="text-slate-500 text-sm">Học cách nói về các kỳ nghỉ (Thì quá khứ đơn).</p>
                             <button class="btn" onclick="showPage('globalsuccess-unit3', 'globalsuccess')">Vào học</button>
+                        </div>
+                    </div>
+                    <!-- MỚI: Unit Item 4 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/children-birthday-party-concept_23-2148480577.jpg?w=996&t=st=1731310680~exp=1731311280~hmac=b7e28321041b34e402b8d4e44f83b163d76e771d9990566371cf7394c8651084" alt="Unit 4: Did you go to the party?" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 4: Did you go to the party? <span class="completion-icon" id="icon-globalsuccess-unit4"></span></h3>
+                            <p class="text-slate-500 text-sm">Nói về các bữa tiệc và hoạt động trong quá khứ.</p>
+                            <button class="btn" onclick="showPage('globalsuccess-unit4', 'globalsuccess')">Vào học</button>
+                        </div>
+                    </div>
+                    <!-- MỚI: Unit Item 5 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/group-people-different-professions_1308-66268.jpg?w=996&t=st=1731310714~exp=1731311314~hmac=b6f63f58a36c61f238a0f2690a2c0f64c126d4002e21262d1421ab29c3f0c333" alt="Unit 5: What will you be in the future?" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 5: What will you be... <span class="completion-icon" id="icon-globalsuccess-unit5"></span></h3>
+                            <p class="text-slate-500 text-sm">Hỏi và trả lời về nghề nghiệp trong tương lai.</p>
+                            <button class="btn" onclick="showPage('globalsuccess-unit5', 'globalsuccess')">Vào học</button>
+                        </div>
+                    </div>
+                    <!-- MỚI: Unit Item 6 -->
+                    <div class="content-item">
+                        <img src="https://img.freepik.com/free-vector/boy-playing-different-sports_1308-31626.jpg?w=740&t=st=1731310747~exp=1731311347~hmac=b7f5f84d092923768393c907b1373a6a978f85f368f56e9c946f007e94e24233" alt="Unit 6: How many lessons do you have today?" onerror="this.src='https://placehold.co/300x150/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                        <div class="content-item-text">
+                            <h3>Unit 6: How many lessons... <span class="completion-icon" id="icon-globalsuccess-unit6"></span></h3>
+                            <p class="text-slate-500 text-sm">Nói về các môn học và thời khóa biểu.</p>
+                            <button class="btn" onclick="showPage('globalsuccess-unit6', 'globalsuccess')">Vào học</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div> <!-- Kết thúc #page-globalsuccess -->
 
-        <!-- CẬP NHẬT: Trang 11: Hồ sơ -->
+        <!-- Trang 11: Hồ sơ -->
         <div id="page-profile" class="page">
             <div class="subpage-container">
                 <h1>Hồ sơ của bạn</h1>
                 
-                <!-- PHẦN THÔNG TIN TÀI KHOẢN (Đã có) -->
+                <!-- Thông tin tài khoản -->
                 <div class="lesson-section">
                     <h2>Thông tin tài khoản</h2>
                     <p>Email: <strong id="profile-email" class="text-primary-DEFAULT">...</strong></p>
                     <p>UserID: <strong id="profile-userid" class="text-slate-500 text-sm">...</strong></p>
                 </div>
                 
-                <!-- MỚI: PHẦN CẬP NHẬT THÔNG TIN -->
+                <!-- Cập nhật thông tin -->
                 <div class="lesson-section">
                     <h2>Cập nhật thông tin</h2>
                     <form id="profile-update-form">
@@ -1683,7 +1809,7 @@
                     </form>
                 </div>
                 
-                <!-- PHẦN TIẾN ĐỘ QUIZ (Đã có) -->
+                <!-- Tiến độ Quiz -->
                 <div class="lesson-section">
                     <h2>Tiến độ học tập (Bài kiểm tra)</h2>
                     <div id="profile-quiz-results">
@@ -1691,7 +1817,7 @@
                     </div>
                 </div>
                 
-                <!-- PHẦN TIẾN ĐỘ BÀI HỌC (Đã có) -->
+                <!-- Tiến độ bài học -->
                 <div class="lesson-section">
                     <h2>Tiến độ bài học (Đã hoàn thành)</h2>
                     <div id="profile-lesson-progress">
@@ -1718,26 +1844,63 @@
 
         <!-- TRANG BÀI HỌC -->
 
-        <!-- Cambridge Unit 1 -->
+        <!-- Cambridge Unit 1 (CẬP NHẬT: NỘI DUNG PHONG PHÚ HƠN) -->
         <div id="page-cambridge-unit1" class="page">
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
                 <h1>Cambridge - Unit 1: Our School</h1>
                 
+                <!-- CẬP NHẬT: BỐ CỤC TỪ VỰNG MỚI -->
                 <div class="lesson-section">
                     <h2>1. Từ vựng (Vocabulary)</h2>
-                    <ul>
-                        <li>Classroom (n): Lớp học</li>
-                        <li>Library (n): Thư viện</li>
-                        <li>Gym (n): Phòng tập thể dục</li>
-                        <li>Playground (n): Sân chơi</li>
+                    <ul class="vocab-list">
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/empty-school-classroom-interior-education-background_1308-111103.jpg?w=996&t=st=1731311029~exp=1731311629~hmac=5ed7c936720817ac2cf62e0c946c7ccb8a07c33c09b30c144c100347854be705" alt="Classroom" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Classroom (n)</strong>
+                            <p>Lớp học</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/library-interior-with-books-shelves_107791-1934.jpg?w=996&t=st=1731311051~exp=1731311651~hmac=02e88a3857e4e16d414a9c14830154bc85cae6097d75c92f9d863e4811a43a01" alt="Library" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Library (n)</strong>
+                            <p>Thư viện</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/school-gym-interior-cartoon-style_1308-111101.jpg?w=996&t=st=1731311073~exp=1731311673~hmac=80393049219e2764b88939b02f89f7f0227c81d86d6eb5264b32524f7ca83626" alt="Gym" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Gym (n)</strong>
+                            <p>Phòng tập thể dục</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/kids-playground-park_1308-30623.jpg?w=996&t=st=1731311094~exp=1731311694~hmac=41e247b973c9f20e4b9bc972986427320092c43105a30644a864e292a832f059" alt="Playground" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Playground (n)</strong>
+                            <p>Sân chơi</p>
+                        </li>
+                         <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/hand-drawn-english-subject-illustration_23-2150009623.jpg?w=740&t=st=1731311124~exp=1731311724~hmac=d88072023d6a2a0eb921c5b8b9af997d91e84df9af86a87752e257b45a27814b" alt="Subject" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Subject (n)</strong>
+                            <p>Môn học</p>
+                        </li>
+                         <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/hand-drawn-science-education-illustration_23-2149495408.jpg?w=740&t=st=1731311145~exp=1731311745~hmac=edb708b79f2910d6a2a048705f1f94d35166299f061e8697da47907577536341" alt="Science" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Science (n)</strong>
+                            <p>Môn Khoa học</p>
+                        </li>
                     </ul>
                 </div>
                 <div class="lesson-section">
                     <h2>2. Ngữ pháp (Grammar)</h2>
-                    <p><strong>Cấu trúc: What subject do you have today?</strong></p>
+                    <p><strong>Cấu trúc 1: What subject do you have today?</strong> (Hôm nay bạn có môn gì?)</p>
                     <p>Trả lời: I have + (tên môn học).</p>
                     <p>Ví dụ: I have Maths, Vietnamese, and English.</p>
+                </div>
+                <!-- MỚI: MẪU CÂU HAY -->
+                <div class="lesson-section">
+                    <h2>3. Mẫu câu hay (Useful Sentences)</h2>
+                    <ul>
+                        <li>This is our new classroom. (Đây là lớp học mới của chúng ta.)</li>
+                        <li>The library is very big. (Thư viện rất lớn.)</li>
+                        <li>We play football in the gym. (Chúng tớ chơi đá banh trong phòng thể dục.)</li>
+                        <li>What is your favourite subject? (Môn học yêu thích của bạn là gì?)</li>
+                    </ul>
                 </div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit1')">Hoàn thành bài học</button>
@@ -1760,7 +1923,7 @@
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
                 <h1>Cambridge - Unit 2: Family and Friends</h1>
-                <div class="lesson-section"><h2>Nội dung Unit 2...</h2></div>
+                <div class="lesson-section"><h2>Nội dung Unit 2 đang được cập nhật...</h2></div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit2')">Hoàn thành bài học</button>
 
@@ -1779,7 +1942,7 @@
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
                 <h1>Cambridge - Unit 3: The World Around Us</h1>
-                <div class="lesson-section"><h2>Nội dung Unit 3...</h2></div>
+                <div class="lesson-section"><h2>Nội dung Unit 3 đang được cập nhật...</h2></div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit3')">Hoàn thành bài học</button>
                 <div class="lesson-section comment-section">
@@ -1792,26 +1955,104 @@
                 </div>
             </div>
         </div>
+        <!-- MỚI: Cambridge Unit 4 -->
+        <div id="page-cambridge-unit4" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
+                <h1>Cambridge - Unit 4: Sức khỏe & Thói quen</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 4 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit4')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-cambridge-unit4" class="comment-list"></div>
+                    <form id="comment-form-cambridge-unit4" class="comment-form" onsubmit="event.preventDefault(); postComment('cambridge-unit4');">
+                        <textarea id="comment-input-cambridge-unit4" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MỚI: Cambridge Unit 5 -->
+        <div id="page-cambridge-unit5" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
+                <h1>Cambridge - Unit 5: Thị trấn của tôi</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 5 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit5')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-cambridge-unit5" class="comment-list"></div>
+                    <form id="comment-form-cambridge-unit5" class="comment-form" onsubmit="event.preventDefault(); postComment('cambridge-unit5');">
+                        <textarea id="comment-input-cambridge-unit5" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MỚI: Cambridge Unit 6 -->
+        <div id="page-cambridge-unit6" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('cambridge', 'cambridge')">&larr; Quay lại Cambridge</button>
+                <h1>Cambridge - Unit 6: Kỳ nghỉ & Du lịch</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 6 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('cambridge-unit6')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-cambridge-unit6" class="comment-list"></div>
+                    <form id="comment-form-cambridge-unit6" class="comment-form" onsubmit="event.preventDefault(); postComment('cambridge-unit6');">
+                        <textarea id="comment-input-cambridge-unit6" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-        <!-- Global Success Unit 1 -->
+        <!-- Global Success Unit 1 (CẬP NHẬT: NỘI DUNG PHONG PHÚ HƠN) -->
         <div id="page-globalsuccess-unit1" class="page">
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
                 <h1>Global Success - Unit 1: What's your address?</h1>
+                <!-- CẬP NHẬT: BỐ CỤC TỪ VỰNG MỚI -->
                 <div class="lesson-section">
                     <h2>1. Từ vựng (Vocabulary)</h2>
-                    <ul>
-                        <li>Address (n): Địa chỉ</li>
-                        <li>Street (n): Đường phố</li>
-                        <li>Village (n): Làng, xã</li>
-                        <li>City (n): Thành phố</li>
+                    <ul class="vocab-list">
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/hand-drawn-map-concept_23-2148099309.jpg?w=740&t=st=1731311394~exp=1731311994~hmac=62d5e7529fa0331003f901a1829e1cd4da80c98f8cc4294ed05b22301c37c22e" alt="Address" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Address (n)</strong>
+                            <p>Địa chỉ</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/empty-street-night-scene_1308-54812.jpg?w=996&t=st=1731311417~exp=1731312017~hmac=e2098670da4162ab317822e11e06c4b9f29913197623a9a557b447a16f5c88ea" alt="Street" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Street (n)</strong>
+                            <p>Đường phố</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/rural-landscape-concept-illustration_114360-9222.jpg?w=996&t=st=1731311438~exp=1731312038~hmac=4dfa8b0870c57c5040f1a9a8383a8bce69123fa3b455b8e99908cf69a23d062e" alt="Village" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>Village (n)</strong>
+                            <p>Làng, xã</p>
+                        </li>
+                        <li class="vocab-item">
+                            <img src="https://img.freepik.com/free-vector/city-skyline-concept-illustration_114360-8962.jpg?w=996&t=st=1731311458~exp=1731312058~hmac=3c9f28d7a18f8885b54203df5cae4c0ea2542a20a6e4313f8c8541e2b5c010b9" alt="City" onerror="this.src='https://placehold.co/200x120/fef2f2/dc2626?text=Lỗi+Ảnh'">
+                            <strong>City (n)</strong>
+                            <p>Thành phố</p>
+                        </li>
                     </ul>
                 </div>
                 <div class="lesson-section">
                     <h2>2. Ngữ pháp (Grammar)</h2>
-                    <p><strong>Cấu trúc: What's your address?</strong></p>
+                    <p><strong>Cấu trúc: What's your address?</strong> (Địa chỉ của bạn là gì?)</p>
                     <p>Trả lời: It's + (số nhà) + (tên đường).</p>
                     <p>Ví dụ: It's 123 Tran Hung Dao Street.</p>
+                </div>
+                 <!-- MỚI: MẪU CÂU HAY -->
+                <div class="lesson-section">
+                    <h2>3. Mẫu câu hay (Useful Sentences)</h2>
+                    <ul>
+                        <li>Where do you live? (Bạn sống ở đâu?)</li>
+                        <li>I live at 81 Tran Hung Dao Street. (Tôi sống ở số 81 đường Trần Hưng Đạo.)</li>
+                        <li>I live in a big city. (Tôi sống ở một thành phố lớn.)</li>
+                        <li>My address is... (Địa chỉ của tôi là...)</li>
+                    </ul>
                 </div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit1')">Hoàn thành bài học</button>
@@ -1830,7 +2071,7 @@
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
                 <h1>Global Success - Unit 2: I always get up early</h1>
-                <div class="lesson-section"><h2>Nội dung Unit 2...</h2></div>
+                <div class="lesson-section"><h2>Nội dung Unit 2 đang được cập nhật...</h2></div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit2')">Hoàn thành bài học</button>
                 <div class="lesson-section comment-section">
@@ -1848,7 +2089,7 @@
             <div class="subpage-container">
                 <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
                 <h1>Global Success - Unit 3: Where did you go on holiday?</h1>
-                <div class="lesson-section"><h2>Nội dung Unit 3...</h2></div>
+                <div class="lesson-section"><h2>Nội dung Unit 3 đang được cập nhật...</h2></div>
                 
                 <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit3')">Hoàn thành bài học</button>
                 <div class="lesson-section comment-section">
@@ -1856,6 +2097,57 @@
                     <div id="comment-list-globalsuccess-unit3" class="comment-list"></div>
                     <form id="comment-form-globalsuccess-unit3" class="comment-form" onsubmit="event.preventDefault(); postComment('globalsuccess-unit3');">
                         <textarea id="comment-input-globalsuccess-unit3" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MỚI: Global Success Unit 4 -->
+        <div id="page-globalsuccess-unit4" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
+                <h1>Global Success - Unit 4: Did you go to the party?</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 4 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit4')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-globalsuccess-unit4" class="comment-list"></div>
+                    <form id="comment-form-globalsuccess-unit4" class="comment-form" onsubmit="event.preventDefault(); postComment('globalsuccess-unit4');">
+                        <textarea id="comment-input-globalsuccess-unit4" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MỚI: Global Success Unit 5 -->
+        <div id="page-globalsuccess-unit5" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
+                <h1>Global Success - Unit 5: What will you be in the future?</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 5 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit5')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-globalsuccess-unit5" class="comment-list"></div>
+                    <form id="comment-form-globalsuccess-unit5" class="comment-form" onsubmit="event.preventDefault(); postComment('globalsuccess-unit5');">
+                        <textarea id="comment-input-globalsuccess-unit5" placeholder="Viết bình luận của bạn..." required></textarea>
+                        <button type="submit" class="btn">Gửi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MỚI: Global Success Unit 6 -->
+        <div id="page-globalsuccess-unit6" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('globalsuccess', 'globalsuccess')">&larr; Quay lại Global Success</button>
+                <h1>Global Success - Unit 6: How many lessons do you have today?</h1>
+                <div class="lesson-section"><h2>Nội dung Unit 6 đang được cập nhật...</h2></div>
+                <button class="btn btn-complete" onclick="markLessonComplete('globalsuccess-unit6')">Hoàn thành bài học</button>
+                <div class="lesson-section comment-section">
+                    <h2>Bình luận</h2>
+                    <div id="comment-list-globalsuccess-unit6" class="comment-list"></div>
+                    <form id="comment-form-globalsuccess-unit6" class="comment-form" onsubmit="event.preventDefault(); postComment('globalsuccess-unit6');">
+                        <textarea id="comment-input-globalsuccess-unit6" placeholder="Viết bình luận của bạn..." required></textarea>
                         <button type="submit" class="btn">Gửi</button>
                     </form>
                 </div>
@@ -1927,7 +2219,7 @@
         const firebaseConfig = typeof __firebase_config !== 'undefined' 
             ? JSON.parse(__firebase_config) 
             : {
-                apiKey: "AIzaSyBPAQ8jldVTwtB_uAzz0-oGcZiUaJ3NeyU",
+                 apiKey: "AIzaSyBPAQ8jldVTwtB_uAzz0-oGcZiUaJ3NeyU",
   authDomain: "ewmp-abc18.firebaseapp.com",
   projectId: "ewmp-abc18",
   storageBucket: "ewmp-abc18.firebasestorage.app",
@@ -1963,20 +2255,24 @@
         let selectedAnswerIndex = null;
         let quizTitleEl, quizQuestionEl, quizOptionsEl, quizNextBtn, quizContentEl, quizResultEl, quizScoreEl;
 
-        // Biến Game Flashcard
+        // Biến Game Flashcard (CẬP NHẬT: THÊM TỪ VỰNG)
         let flashcardGrid, flipsEl;
         const cardData = [
             { text: 'Apple', id: 'apple' }, { text: 'Quả táo', id: 'apple' },
             { text: 'Book', id: 'book' }, { text: 'Quyển sách', id: 'book' },
             { text: 'Cat', id: 'cat' }, { text: 'Con mèo', id: 'cat' },
-            { text: 'Sun', id: 'sun' }, { text: 'Mặt trời', id: 'sun' }
+            { text: 'Sun', id: 'sun' }, { text: 'Mặt trời', id: 'sun' },
+            { text: 'Dog', id: 'dog' }, { text: 'Con chó', id: 'dog' },
+            { text: 'House', id: 'house' }, { text: 'Ngôi nhà', id: 'house' },
+            { text: 'Blue', id: 'blue' }, { text: 'Màu xanh', id: 'blue' },
+            { text: 'Eat', id: 'eat' }, { text: 'Ăn', id: 'eat' }
         ];
         let flippedCards = [];
         let lockBoard = false;
         let flipCount = 0;
         let matchedPairs = 0;
         
-        // Biến Game Word Connect
+        // Biến Game Word Connect (CẬP NHẬT: THÊM LEVEL)
         let wcGridEl, wcFoundWordsEl, wcCurrentWordEl, wcShuffleBtn, wcNextLevelBtn, wcLevelInfoEl, wcFoundListEl;
         let wcCurrentLevel = 0;
         let wcIsDrawing = false;
@@ -1991,10 +2287,14 @@
             {
                 grid: ['B', 'E', 'D', 'R', 'O', 'M', 'O', 'A', 'K'],
                 words: ['BED', 'ROOM', 'BEDROOM', 'BOOK', 'ROBE', 'MORE', 'DOOR', 'DREAM', 'ODE', 'BAD', 'BEAM', 'BROOM', 'BORE', 'MODE']
+            },
+            {
+                grid: ['S', 'L', 'O', 'W', 'C', 'H', 'F', 'O', 'D'],
+                words: ['FOOD', 'SLOW', 'COLD', 'HOW', 'LOW', 'OLD', 'FOO', 'DOS', 'FOG', 'SOD', 'WHO']
             }
         ];
 
-        // Biến Game Fill Blank
+        // Biến Game Fill Blank (CẬP NHẬT: THÊM CÂU HỎI)
         let fbSentenceStartEl, fbSentenceEndEl, fbInputEl, fbCheckBtn, fbFeedbackEl, fbProgressEl, fbGameAreaEl, fbResultsEl, fbRestartBtn, fbResultsScoreEl;
         let fbCurrentQuestion = 0;
         let fbScore = 0;
@@ -2003,7 +2303,12 @@
             { start: 'My new school is', end: 'a quiet street.', answer: 'on' },
             { start: 'What', end: 'your name?', answer: 'is' },
             { start: 'There', end: 'a book on the table.', answer: 'is' },
-            { start: 'There', end: 'two cats under the chair.', answer: 'are' }
+            { start: 'There', end: 'two cats under the chair.', answer: 'are' },
+            { start: 'Where', end: 'you go yesterday?', answer: 'did' },
+            { start: 'I', end: 'football last Sunday.', answer: 'played' },
+            { start: 'How', end: 'is this book?', answer: 'much' },
+            { start: 'How', end: 'apples are there?', answer: 'many' },
+            { start: 'You', end: "play with fire. It's dangerous.", answer: "shouldn't" }
         ];
         
         // Biến Element (Auth & Profile)
@@ -2012,7 +2317,6 @@
         let profileQuizResultsEl;
         let profileLessonProgressEl;
         
-        // MỚI: Biến cho form cập nhật hồ sơ
         let profileUpdateForm, profileDisplayNameInput, profileMessageEl;
 
         // Biến cho tính năng AI
@@ -2183,7 +2487,6 @@
             }
         }
         
-        // MỚI: Hàm xử lý cập nhật hồ sơ
         async function handleUpdateProfile(event) {
             event.preventDefault();
             if (!currentUser) {
@@ -2203,18 +2506,15 @@
             const button = event.target.querySelector('button');
             button.disabled = true;
 
-            // Chúng ta sẽ lưu/cập nhật tên hiển thị vào cùng tài liệu với Bảng xếp hạng
-            // vì đây là dữ liệu công khai.
             const docRef = doc(db, "artifacts", appId, "public", "data", "leaderboard", currentUser.uid);
 
             try {
-                // Dùng setDoc + merge để tạo mới hoặc cập nhật tài liệu này
                 await setDoc(docRef, {
                     displayName: newName,
                     userId: currentUser.uid,
-                    email: currentUser.email || null, // Lưu email để tham khảo
+                    email: currentUser.email || null, 
                     lastUpdated: new Date()
-                }, { merge: true }); // merge: true rất quan trọng để không ghi đè điểm (totalScore)
+                }, { merge: true }); 
 
                 profileMessageEl.textContent = 'Cập nhật thành công!';
                 profileMessageEl.className = 'auth-message success';
@@ -2230,7 +2530,7 @@
             }
         }
 
-        // --- 4. TÍNH NĂNG QUIZ (Global) ---
+        // --- 4. TÍNH NĂNG QUIZ (Global) (CẬP NHẬT: THÊM QUIZ) ---
         
         const quizzes = {
             'unit1': {
@@ -2281,6 +2581,38 @@
                     { q: 'Từ nào có nghĩa là "thành phố"?', options: ['Village', 'Town', 'City', 'Country'], answer: 2 },
                     { q: 'Từ nào có nghĩa là "môn học"?', options: ['Subject', 'Class', 'School', 'Teacher'], answer: 0 },
                     { q: 'Từ nào có nghĩa là "bạn bè"?', options: ['Family', 'Parents', 'Friends', 'Brother'], answer: 2 }
+                ]
+            },
+            // MỚI: QUIZ UNIT 3
+            'unit3': {
+                title: 'Đề kiểm tra 15 phút - Unit 3 (Holiday)',
+                questions: [
+                    { q: 'Where ___ you go last summer?', options: ['do', 'does', 'did', 'are'], answer: 2 },
+                    { q: 'I ___ to Ha Long Bay.', options: ['go', 'goes', 'went', 'am going'], answer: 2 },
+                    { q: 'What was the trip like? - It ___ great.', options: ['is', 'are', 'was', 'were'], answer: 2 },
+                    { q: '___ they enjoy the food?', options: ['Do', 'Does', 'Did', 'Were'], answer: 2 },
+                    { q: 'We ___ in a nice hotel.', options: ['stay', 'stays', 'stayed', 'staying'], answer: 2 },
+                    { q: 'She ___ buy any souvenirs.', options: ["don't", "doesn't", "didn't", "wasn't"], answer: 2 },
+                    { q: 'I ___ photos of the island.', options: ['take', 'took', 'takes', 'taking'], answer: 1 },
+                    { q: '___ was your holiday?', options: ['What', 'Where', 'How', 'When'], answer: 2 },
+                    { q: 'We ___ back home yesterday.', options: ['come', 'comes', 'came', 'coming'], answer: 2 },
+                    { q: 'My parents ___ very happy.', options: ['is', 'are', 'was', 'were'], answer: 3 }
+                ]
+            },
+            // MỚI: QUIZ UNIT 4
+            'unit4': {
+                title: 'Đề kiểm tra 15 phút - Unit 4 (Food)',
+                questions: [
+                    { q: 'How ___ rice do you want?', options: ['many', 'much', 'a', 'an'], answer: 1 },
+                    { q: 'How ___ eggs do you need?', options: ['many', 'much', 'a', 'an'], answer: 0 },
+                    { q: 'I want a ___ of chocolate.', options: ['can', 'bar', 'bottle', 'box'], answer: 1 },
+                    { q: 'She would like a ___ of milk.', options: ['packet', 'kilo', 'glass', 'can'], answer: 2 },
+                    { q: 'What would you like ___ breakfast?', options: ['in', 'at', 'on', 'for'], answer: 3 },
+                    { q: 'I am hungry. I want ___ noodles.', options: ['a', 'an', 'some', 'any'], answer: 2 },
+                    { q: 'Is there ___ milk in the fridge?', options: ['a', 'an', 'some', 'any'], answer: 3 },
+                    { q: 'There isn\'t ___ water left.', options: ['a', 'an', 'some', 'any'], answer: 3 },
+                    { q: 'I\'d like ___ apple, please.', options: ['a', 'an', 'some', 'any'], answer: 1 },
+                    { q: 'How much is a ___ of bread?', options: ['loaf', 'dozen', 'kilo', 'bar'], answer: 0 }
                 ]
             },
             'finalterm1': {
@@ -2426,24 +2758,20 @@
             }
         }
 
-        // CẬP NHẬT: Hàm tải dữ liệu hồ sơ
         async function loadProfileData() {
             if (currentUser) {
                 profileEmailEl.textContent = currentUser.email || 'Không có (Tài khoản ẩn danh)';
                 profileUserIdEl.textContent = currentUser.uid;
                 
-                // MỚI: Tải tên hiển thị
-                profileDisplayNameInput.value = ''; // Xóa giá trị cũ
-                profileMessageEl.style.display = 'none'; // Ẩn thông báo
+                profileDisplayNameInput.value = ''; 
+                profileMessageEl.style.display = 'none'; 
                 
                 try {
-                    // Đọc từ tài liệu leaderboard (public)
                     const docRef = doc(db, "artifacts", appId, "public", "data", "leaderboard", currentUser.uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists() && docSnap.data().displayName) {
                         profileDisplayNameInput.value = docSnap.data().displayName;
                     } else if (currentUser.email) {
-                        // Gợi ý tên từ email nếu chưa đặt
                         profileDisplayNameInput.value = currentUser.email.split('@')[0];
                     }
                 } catch (error) {
@@ -2933,7 +3261,6 @@
             lessonUnsubscribers[lessonId] = unsubscribe;
         }
 
-        // CẬP NHẬT: Hàm render bình luận
         function renderComment(lessonId, data) {
             const commentListEl = document.getElementById(`comment-list-${lessonId}`);
             if (!commentListEl) return;
@@ -2943,7 +3270,6 @@
             
             const timestamp = data.timestamp?.seconds ? new Date(data.timestamp.seconds * 1000) : new Date();
             
-            // CẬP NHẬT: Ưu tiên displayName, sau đó đến email, cuối cùng là userId
             const name = data.displayName 
                        || (data.email ? data.email.split('@')[0] : 
                           (data.userId ? `User-${data.userId.substring(0, 6)}` : 'Anonymous'));
@@ -2958,7 +3284,6 @@
             commentListEl.appendChild(item);
         }
 
-        // CẬP NHẬT: Hàm đăng bình luận
         window.postComment = async (lessonId) => {
             const inputEl = document.getElementById(`comment-input-${lessonId}`);
             const formEl = document.getElementById(`comment-form-${lessonId}`);
@@ -2981,8 +3306,7 @@
                 return;
             }
             
-            // MỚI: Lấy tên hiển thị hiện tại để lưu vào bình luận
-            let displayName = currentUser.email ? currentUser.email.split('@')[0] : `User-${currentUser.uid.substring(0, 6)}`; // Fallback
+            let displayName = currentUser.email ? currentUser.email.split('@')[0] : `User-${currentUser.uid.substring(0, 6)}`; 
             try {
                 const profileDocRef = doc(db, "artifacts", appId, "public", "data", "leaderboard", currentUser.uid);
                 const profileSnap = await getDoc(profileDocRef);
@@ -2992,7 +3316,6 @@
             } catch (e) {
                 console.warn("Không thể lấy tên hiển thị, dùng tên mặc định.", e);
             }
-            // Kết thúc MỚI
 
             const collRef = collection(db, "artifacts", appId, "public", "data", "lessonComments");
             
@@ -3004,7 +3327,7 @@
                     text: text,
                     userId: currentUser.uid,
                     email: currentUser.email || null,
-                    displayName: displayName, // <-- MỚI: Lưu tên hiển thị
+                    displayName: displayName, 
                     timestamp: new Date()
                 });
                 inputEl.value = '';
@@ -3129,8 +3452,8 @@
         async function generateImageForWord(term) {
             wordImageEl.src = "";
             wordImageEl.alt = "Đang tạo hình ảnh...";
-            wordImageEl.classList.add('opacity-0'); // Ẩn ảnh cũ
-            wordImageEl.parentElement.classList.add('animate-pulse'); // Thêm hiệu ứng pulse
+            wordImageEl.classList.add('opacity-0'); 
+            wordImageEl.parentElement.classList.add('animate-pulse'); 
 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
             const prompt = `Một hình ảnh minh họa đơn giản, thân thiện với trẻ em, phong cách hoạt hình (cartoon style) cho từ "${term}".`;
@@ -3175,7 +3498,6 @@
 
         // --- 9. TÍNH NĂNG BẢNG XẾP HẠNG (Viết điểm) ---
 
-        // CẬP NHẬT: Hàm cập nhật điểm
         async function updateUserScore(scoreToAdd) {
             if (!currentUser || currentUser.isAnonymous) {
                 console.log("Không lưu điểm (khách/ẩn danh).");
@@ -3186,7 +3508,6 @@
 
             const docRef = doc(db, "artifacts", appId, "public", "data", "leaderboard", currentUser.uid);
 
-            // MỚI: Đọc tên hiển thị hiện tại trước khi ghi đè
             let currentDisplayName = currentUser.email ? currentUser.email.split('@')[0] : `User-${currentUser.uid.substring(0, 6)}`;
             try {
                 const docSnap = await getDoc(docRef);
@@ -3196,16 +3517,15 @@
             } catch (e) {
                 console.warn("Không thể đọc tên hiển thị hiện tại, sẽ dùng tên mặc định.", e);
             }
-            // Kết thúc MỚI
 
             try {
                 await setDoc(docRef, {
                     totalScore: increment(scoreToAdd),
                     userId: currentUser.uid,
-                    displayName: currentDisplayName, // <-- CẬP NHẬT: Dùng tên đã đọc
-                    email: currentUser.email || null, // Thêm/cập nhật email
+                    displayName: currentDisplayName, 
+                    email: currentUser.email || null, 
                     lastUpdated: new Date()
-                }, { merge: true }); // merge: true đảm bảo totalScore được cộng dồn
+                }, { merge: true }); 
 
                 console.log(`Đã cập nhật ${scoreToAdd} điểm cho user ${currentUser.uid} (public)`);
                 
@@ -3216,7 +3536,6 @@
         
         // --- 10. TÍNH NĂNG BẢNG XẾP HẠNG (Đọc điểm) ---
 
-        // CẬP NHẬT: Hàm tải Bảng xếp hạng
         async function loadLeaderboard() {
             leaderboardContainerEl.innerHTML = '<p id="leaderboard-loading">Đang tải bảng xếp hạng...</p>';
             
@@ -3254,7 +3573,6 @@
                 
                 top10.forEach((data, index) => {
                     const rank = index + 1;
-                    // CẬP NHẬT: Cải thiện fallback tên
                     const name = data.displayName 
                                || (data.email ? data.email.split('@')[0] : 
                                   (data.userId ? `User-${data.userId.substring(0, 6)}` : 'Anonymous'));
@@ -3343,7 +3661,6 @@
             profileQuizResultsEl = document.getElementById('profile-quiz-results');
             profileLessonProgressEl = document.getElementById('profile-lesson-progress');
             
-            // MỚI: Gán element cho form hồ sơ
             profileUpdateForm = document.getElementById('profile-update-form');
             profileDisplayNameInput = document.getElementById('profile-display-name');
             profileMessageEl = document.getElementById('profile-message');
@@ -3398,7 +3715,6 @@
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('register-form').addEventListener('submit', handleRegister);
             
-            // MỚI: Thêm trình xử lý sự kiện cho form hồ sơ
             profileUpdateForm.addEventListener('submit', handleUpdateProfile);
             
             wcGridEl.addEventListener('mousedown', handleWCGridMouseStart);
