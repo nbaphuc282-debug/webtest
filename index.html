@@ -551,6 +551,23 @@
             .modal-content {
                 width: 95% !important;
             }
+            /* MỚI: Responsive cho game */
+            .flashcard-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .wc-game-area {
+                flex-direction: column;
+            }
+            .wc-grid-container {
+                width: 100%;
+                max-width: 350px;
+                margin-top: 20px;
+            }
+            #wc-found-words {
+                width: 100%;
+                max-width: none;
+                height: 150px;
+            }
         }
         
         /* 8. CSS TÍNH NĂNG MỚI (Cũ) */
@@ -827,6 +844,157 @@
             cursor: default;
         }
         
+        /* MỚI: CSS CHO GAME NỐI TỪ (WORD CONNECT) */
+        .wc-game-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        #wc-found-words {
+            width: 250px;
+            max-width: 100%;
+            height: 350px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        #wc-found-words h3 {
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        #wc-found-list {
+            list-style-type: none;
+            padding-left: 0;
+            text-align: center;
+        }
+        #wc-found-list li {
+            font-size: 1.2em;
+            color: var(--success-green);
+            font-weight: bold;
+            padding: 4px 0;
+        }
+        .wc-grid-container {
+            width: 350px;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #wc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 80px); /* 3x3 grid */
+            gap: 15px;
+            margin-top: 20px;
+            touch-action: none; /* Quan trọng cho touch events */
+        }
+        .wc-letter {
+            width: 80px;
+            height: 80px;
+            background: var(--light-blue-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%; /* Hình tròn */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            cursor: pointer;
+            user-select: none; /* Ngăn bôi đen chữ */
+            transition: background-color 0.2s;
+        }
+        .wc-letter.selected {
+            background: var(--primary-color);
+            color: white;
+        }
+        #wc-current-word {
+            height: 50px;
+            width: 100%;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--dark-text);
+            letter-spacing: 2px;
+        }
+        .wc-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        #wc-level-info {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* MỚI: CSS CHO GAME ĐIỀN VÀO CHỖ TRỐNG (FILL BLANK) */
+        .fb-game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #fb-progress {
+            font-size: 1.1em;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        #fb-sentence-container {
+            font-size: 1.5em;
+            font-weight: 500;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        #fb-input {
+            width: 150px;
+            font-size: 1.4em;
+            text-align: center;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            padding: 5px;
+            margin: 0 5px;
+        }
+        #fb-input:focus {
+            outline: none;
+            border-bottom-width: 3px;
+        }
+        #fb-check-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        #fb-feedback {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        #fb-feedback.correct {
+            color: var(--success-green);
+        }
+        #fb-feedback.wrong {
+            color: var(--dark-red);
+        }
+        #fb-results {
+            margin-top: 30px;
+        }
+        #fb-results h2 {
+            font-size: 1.8em;
+        }
+        #fb-results-score {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        
     </style>
 </head>
 <body>
@@ -1030,13 +1198,15 @@
                     <div class="game-card">
                         <img src="https://placehold.co/150x150/e0f7fa/000?text=Game+Icon+2" alt="Icon game">
                         <h3>Nối từ (Word Connect)</h3>
-                        <button class="btn" onclick="showCustomAlert('Chức năng này sắp ra mắt!')">Chơi ngay</button>
+                        <!-- CẬP NHẬT: Thay đổi onclick -->
+                        <button class="btn" onclick="startGame('wordconnect')">Chơi ngay</button>
                     </div>
                     <!-- Game card 3 -->
                     <div class="game-card">
                         <img src="https://placehold.co/150x150/e0f7fa/000?text=Game+Icon+3" alt="Icon game">
                         <h3>Điền vào chỗ trống</h3>
-                        <button class="btn" onclick="showCustomAlert('Chức năng này sắp ra mắt!')">Chơi ngay</button>
+                        <!-- CẬP NHẬT: Thay đổi onclick -->
+                        <button class="btn" onclick="startGame('fillblank')">Chơi ngay</button>
                     </div>
                 </div>
             </div>
@@ -1078,6 +1248,62 @@
                 </div>
             </div>
         </div> <!-- Kết thúc #page-game-flashcard -->
+        
+        <!-- MỚI: Trang 6.1: Game Nối Từ (Mặc định ẩn) -->
+        <div id="page-game-wordconnect" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('games')">&larr; Quay lại danh sách game</button>
+                <h1>Game: Nối từ</h1>
+                <p id="wc-level-info" style="text-align: center;">Level 1</p>
+                <div class="wc-game-area">
+                    <!-- Cột từ đã tìm thấy -->
+                    <div id="wc-found-words">
+                        <h3>Từ đã tìm thấy</h3>
+                        <ul id="wc-found-list">
+                            <!-- JS sẽ điền vào đây -->
+                        </ul>
+                    </div>
+                    <!-- Cột lưới chữ -->
+                    <div class="wc-grid-container">
+                        <div id="wc-grid">
+                            <!-- JS sẽ tạo lưới chữ -->
+                        </div>
+                        <div id="wc-current-word"></div>
+                        <div class="wc-controls">
+                            <button id="wc-shuffle-btn" class="btn btn-back">Trộn chữ</button>
+                            <button id="wc-next-level-btn" class="btn" style="display: none;">Level tiếp theo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Kết thúc #page-game-wordconnect -->
+
+        <!-- MỚI: Trang 6.2: Game Điền vào chỗ trống (Mặc định ẩn) -->
+        <div id="page-game-fillblank" class="page">
+            <div class="subpage-container">
+                <button class="btn btn-back" onclick="showPage('games')">&larr; Quay lại danh sách game</button>
+                <h1>Game: Điền vào chỗ trống</h1>
+                
+                <div id="fb-game-area" class="fb-game-container">
+                    <p id="fb-progress">Câu 1 / 3</p>
+                    <div id="fb-sentence-container">
+                        <span id="fb-sentence-start"></span>
+                        <input type="text" id="fb-input" autocomplete="off" autocorrect="off">
+                        <span id="fb-sentence-end"></span>
+                    </div>
+                    <button id="fb-check-btn" class="btn">Kiểm tra</button>
+                    <div id="fb-feedback"></div>
+                </div>
+
+                <div id="fb-results" class="fb-game-container" style="display: none;">
+                    <h2>Hoàn thành!</h2>
+                    <p id="fb-results-score">Bạn đúng 0 / 3 câu.</p>
+                    <button id="fb-restart-btn" class="btn">Chơi lại</button>
+                </div>
+
+            </div>
+        </div> <!-- Kết thúc #page-game-fillblank -->
+
 
         <!-- Trang 7: Đăng nhập (Mặc định ẩn) -->
         <div id="page-login" class="page">
@@ -1506,6 +1732,36 @@
         let flipCount = 0;
         let matchedPairs = 0;
         
+        // MỚI: Biến Game Word Connect
+        let wcGridEl, wcFoundWordsEl, wcCurrentWordEl, wcShuffleBtn, wcNextLevelBtn, wcLevelInfoEl, wcFoundListEl;
+        let wcCurrentLevel = 0;
+        let wcIsDrawing = false;
+        let wcCurrentPath = []; // Mảng các {el, letter, index}
+        let wcFoundInLevel = [];
+        let wcGridLetters = []; // Mảng 1D của các chữ cái trên lưới
+        const wcGameData = [
+            {
+                grid: ['C', 'A', 'T', 'O', 'G', 'D', 'N', 'P', 'E'], // 3x3
+                words: ['CAT', 'DOG', 'PEN', 'GET', 'TEN', 'GOT', 'DOT', 'ON', 'AT', 'TO', 'GO', 'DO', 'NO', 'EAT', 'TEA', 'PET', 'APE', 'AGE', 'ONE', 'TOP', 'POT', 'COP', 'COG']
+            },
+            {
+                grid: ['B', 'E', 'D', 'R', 'O', 'M', 'O', 'A', 'K'], // 3x3
+                words: ['BED', 'ROOM', 'BEDROOM', 'BOOK', 'ROBE', 'MORE', 'DOOR', 'DREAM', 'ODE', 'BAD', 'BEAM', 'BROOM', 'BORE', 'MODE']
+            }
+        ];
+
+        // MỚI: Biến Game Fill Blank
+        let fbSentenceStartEl, fbSentenceEndEl, fbInputEl, fbCheckBtn, fbFeedbackEl, fbProgressEl, fbGameAreaEl, fbResultsEl, fbRestartBtn, fbResultsScoreEl;
+        let fbCurrentQuestion = 0;
+        let fbScore = 0;
+        const fbGameData = [
+            { start: 'She', end: 'breakfast at 7 AM.', answer: 'has' },
+            { start: 'My new school is', end: 'a quiet street.', answer: 'on' },
+            { start: 'What', end: 'your name?', answer: 'is' },
+            { start: 'There', end: 'a book on the table.', answer: 'is' },
+            { start: 'There', end: 'two cats under the chair.', answer: 'are' }
+        ];
+        
         // Biến Element (Auth & Profile)
         let loginLink, registerLink, profileLink, logoutLink;
         let profileEmailEl, profileUserIdEl, profileLogoutBtn;
@@ -1904,7 +2160,7 @@
             }
         }
         
-        // --- 5. TÍNH NĂNG GAME FLASHCARD (Global) ---
+        // --- 5. TÍNH NĂNG GAME (Chung) ---
         
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -1913,13 +2169,25 @@
             }
         }
 
+        // CẬP NHẬT: Hàm startGame chung
         window.startGame = (gameId) => {
             if (gameId === 'flashcard') {
                 window.showPage('game-flashcard', 'games');
                 initFlashcardGame();
             }
+            // MỚI: Thêm 2 game mới
+            if (gameId === 'wordconnect') {
+                window.showPage('game-wordconnect', 'games');
+                initWordConnectGame();
+            }
+            if (gameId === 'fillblank') {
+                window.showPage('game-fillblank', 'games');
+                initFillBlankGame();
+            }
         }
 
+        // --- 5.1 TÍNH NĂNG GAME FLASHCARD (Global) ---
+        
         window.initFlashcardGame = () => {
             flashcardGrid.innerHTML = '';
             flippedCards = [];
@@ -1928,9 +2196,10 @@
             matchedPairs = 0;
             flipsEl.textContent = '0';
             
-            shuffleArray(cardData);
+            let gameCards = [...cardData]; // Tạo bản sao để shuffle
+            shuffleArray(gameCards);
             
-            cardData.forEach(item => {
+            gameCards.forEach(item => {
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('flashcard');
                 cardElement.dataset.id = item.id;
@@ -1991,6 +2260,199 @@
         
         function resetBoard() {
             [flippedCards, lockBoard] = [[], false];
+        }
+        
+        // --- 5.2 (MỚI) TÍNH NĂNG GAME WORD CONNECT ---
+        
+        function initWordConnectGame(level = 0) {
+            wcCurrentLevel = level;
+            wcCurrentPath = [];
+            wcFoundInLevel = [];
+            wcIsDrawing = false;
+            wcNextLevelBtn.style.display = 'none';
+            wcLevelInfoEl.textContent = `Level ${wcCurrentLevel + 1}`;
+            
+            if (level >= wcGameData.length) {
+                wcLevelInfoEl.textContent = "Bạn đã hoàn thành tất cả!";
+                wcGridEl.innerHTML = "<p>Chúc mừng!</p>";
+                wcFoundListEl.innerHTML = "";
+                wcCurrentWordEl.textContent = "";
+                return;
+            }
+            
+            loadWordConnectLevel(wcCurrentLevel);
+        }
+        
+        function loadWordConnectLevel(levelIndex) {
+            const level = wcGameData[levelIndex];
+            wcGridEl.innerHTML = '';
+            wcFoundListEl.innerHTML = '';
+            wcCurrentWordEl.textContent = '';
+            wcFoundInLevel = [];
+            
+            // Grid size (ví dụ: 9 chữ = 3x3, 16 chữ = 4x4)
+            const gridSize = Math.sqrt(level.grid.length);
+            wcGridEl.style.gridTemplateColumns = `repeat(${gridSize}, 80px)`;
+            
+            wcGridLetters = [...level.grid]; // Lưu lại thứ tự chữ
+            
+            wcGridLetters.forEach((letter, index) => {
+                const letterEl = document.createElement('div');
+                letterEl.classList.add('wc-letter');
+                letterEl.textContent = letter;
+                letterEl.dataset.index = index;
+                letterEl.dataset.letter = letter;
+                wcGridEl.appendChild(letterEl);
+            });
+        }
+        
+        function handleWCGridMouseStart(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('wc-letter')) {
+                wcIsDrawing = true;
+                const el = e.target;
+                wcCurrentPath = [{
+                    el: el,
+                    letter: el.dataset.letter,
+                    index: parseInt(el.dataset.index)
+                }];
+                el.classList.add('selected');
+                updateWCCurrentWord();
+            }
+        }
+
+        function handleWCGridMouseMove(e) {
+            e.preventDefault();
+            if (!wcIsDrawing) return;
+            
+            const el = document.elementFromPoint(
+                e.clientX || e.touches[0].clientX, 
+                e.clientY || e.touches[0].clientY
+            );
+            
+            if (el && el.classList.contains('wc-letter') && !el.classList.contains('selected')) {
+                // TODO: Kiểm tra xem có phải là ô liền kề không (bỏ qua để đơn giản)
+                wcCurrentPath.push({
+                    el: el,
+                    letter: el.dataset.letter,
+                    index: parseInt(el.dataset.index)
+                });
+                el.classList.add('selected');
+                updateWCCurrentWord();
+            }
+        }
+        
+        function handleWCGridMouseEnd(e) {
+            e.preventDefault();
+            if (!wcIsDrawing) return;
+            wcIsDrawing = false;
+            checkWCWord();
+            resetWCPath();
+        }
+
+        function updateWCCurrentWord() {
+            wcCurrentWordEl.textContent = wcCurrentPath.map(item => item.letter).join('');
+        }
+        
+        function resetWCPath() {
+            wcCurrentPath.forEach(item => item.el.classList.remove('selected'));
+            wcCurrentPath = [];
+            // Cập nhật từ
+            setTimeout(() => {
+                wcCurrentWordEl.textContent = '';
+            }, 200);
+        }
+        
+        function checkWCWord() {
+            const word = wcCurrentWordEl.textContent;
+            const levelWords = wcGameData[wcCurrentLevel].words;
+            
+            if (word.length < 2) return;
+            
+            // Kiểm tra xem từ có hợp lệ VÀ chưa tìm thấy
+            if (levelWords.includes(word) && !wcFoundInLevel.includes(word)) {
+                wcFoundInLevel.push(word);
+                // Hiển thị từ đã tìm thấy
+                const li = document.createElement('li');
+                li.textContent = word;
+                wcFoundListEl.appendChild(li);
+                
+                // Kiểm tra hoàn thành level
+                if (wcFoundInLevel.length === levelWords.length) {
+                    showCustomAlert("Chúc mừng! Bạn đã hoàn thành level!");
+                    wcNextLevelBtn.style.display = 'block';
+                }
+            }
+        }
+        
+        function shuffleWCGrid() {
+            // Trộn mảng wcGridLetters
+            shuffleArray(wcGridLetters);
+            // Cập nhật lại các ô
+            const letters = wcGridEl.querySelectorAll('.wc-letter');
+            letters.forEach((el, index) => {
+                const newLetter = wcGridLetters[index];
+                el.textContent = newLetter;
+                el.dataset.letter = newLetter;
+            });
+        }
+        
+        // --- 5.3 (MỚI) TÍNH NĂNG GAME FILL BLANK ---
+        
+        function initFillBlankGame() {
+            fbCurrentQuestion = 0;
+            fbScore = 0;
+            fbGameAreaEl.style.display = 'block';
+            fbResultsEl.style.display = 'none';
+            fbCheckBtn.textContent = 'Kiểm tra';
+            fbCheckBtn.onclick = checkFillBlankAnswer; // Gán lại sự kiện kiểm tra
+            loadFillBlankQuestion(fbCurrentQuestion);
+        }
+        
+        function loadFillBlankQuestion(index) {
+            if (index >= fbGameData.length) {
+                showFillBlankResults();
+                return;
+            }
+            
+            const q = fbGameData[index];
+            fbProgressEl.textContent = `Câu ${index + 1} / ${fbGameData.length}`;
+            fbSentenceStartEl.textContent = q.start;
+            fbSentenceEndEl.textContent = q.end;
+            fbInputEl.value = '';
+            fbFeedbackEl.textContent = '';
+            fbFeedbackEl.className = 'fb-feedback';
+            fbInputEl.disabled = false;
+            fbCheckBtn.disabled = false;
+        }
+        
+        function checkFillBlankAnswer() {
+            const userAnswer = fbInputEl.value.trim().toLowerCase();
+            const correctAnswer = fbGameData[fbCurrentQuestion].answer.toLowerCase();
+            
+            if (userAnswer === correctAnswer) {
+                fbFeedbackEl.textContent = 'Chính xác!';
+                fbFeedbackEl.className = 'fb-feedback correct';
+                fbScore++;
+            } else {
+                fbFeedbackEl.textContent = `Sai rồi! Đáp án đúng là: ${fbGameData[fbCurrentQuestion].answer}`;
+                fbFeedbackEl.className = 'fb-feedback wrong';
+            }
+            
+            fbInputEl.disabled = true;
+            fbCheckBtn.disabled = true;
+            
+            // Chuyển sang câu tiếp theo
+            setTimeout(() => {
+                fbCurrentQuestion++;
+                loadFillBlankQuestion(fbCurrentQuestion);
+            }, 2000); // Chờ 2 giây
+        }
+        
+        function showFillBlankResults() {
+            fbGameAreaEl.style.display = 'none';
+            fbResultsEl.style.display = 'block';
+            fbResultsScoreEl.textContent = `Bạn đúng ${fbScore} / ${fbGameData.length} câu.`;
         }
 
         // --- 6. (MỚI) TÍNH NĂNG TIẾN ĐỘ BÀI HỌC ---
@@ -2454,6 +2916,27 @@
             flashcardGrid = document.getElementById('flashcard-grid');
             flipsEl = document.getElementById('flashcard-flips');
             
+            // MỚI: Gán element cho Game Word Connect
+            wcGridEl = document.getElementById('wc-grid');
+            wcFoundWordsEl = document.getElementById('wc-found-words');
+            wcFoundListEl = document.getElementById('wc-found-list');
+            wcCurrentWordEl = document.getElementById('wc-current-word');
+            wcShuffleBtn = document.getElementById('wc-shuffle-btn');
+            wcNextLevelBtn = document.getElementById('wc-next-level-btn');
+            wcLevelInfoEl = document.getElementById('wc-level-info');
+
+            // MỚI: Gán element cho Game Fill Blank
+            fbSentenceStartEl = document.getElementById('fb-sentence-start');
+            fbSentenceEndEl = document.getElementById('fb-sentence-end');
+            fbInputEl = document.getElementById('fb-input');
+            fbCheckBtn = document.getElementById('fb-check-btn');
+            fbFeedbackEl = document.getElementById('fb-feedback');
+            fbProgressEl = document.getElementById('fb-progress');
+            fbGameAreaEl = document.getElementById('fb-game-area');
+            fbResultsEl = document.getElementById('fb-results');
+            fbResultsScoreEl = document.getElementById('fb-results-score');
+            fbRestartBtn = document.getElementById('fb-restart-btn');
+
             // MỚI: Gán element cho tính năng AI
             wordLoadingEl = document.getElementById('word-loading');
             wordDisplayEl = document.getElementById('word-display');
@@ -2467,8 +2950,22 @@
             // Thêm trình xử lý sự kiện
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('register-form').addEventListener('submit', handleRegister);
-            // (Đã chuyển onclick ra HTML cho logoutLink và profileLogoutBtn)
             
+            // MỚI: Thêm sự kiện cho game
+            wcGridEl.addEventListener('mousedown', handleWCGridMouseStart);
+            document.addEventListener('mousemove', handleWCGridMouseMove);
+            document.addEventListener('mouseup', handleWCGridMouseEnd);
+            // Thêm sự kiện touch
+            wcGridEl.addEventListener('touchstart', handleWCGridMouseStart, { passive: false });
+            document.addEventListener('touchmove', handleWCGridMouseMove, { passive: false });
+            document.addEventListener('touchend', handleWCGridMouseEnd);
+            
+            wcShuffleBtn.addEventListener('click', shuffleWCGrid);
+            wcNextLevelBtn.addEventListener('click', () => initWordConnectGame(wcCurrentLevel + 1));
+            
+            fbCheckBtn.addEventListener('click', checkFillBlankAnswer);
+            fbRestartBtn.addEventListener('click', initFillBlankGame);
+
             // MỚI: Thêm sự kiện cho nút AI
             newWordBtn.addEventListener('click', fetchWordOfTheDay);
 
@@ -2483,9 +2980,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
