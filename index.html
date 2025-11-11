@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English With Me - Website Học Tiếng Anh (v5 - Bảng Xếp Hạng)</title>
+    <!-- CẬP NHẬT: Thay đổi tiêu đề -->
+    <title>English With Me - Website Học Tiếng Anh (v5 - Cập nhật đề thi)</title>
     <!-- Nhúng font Inter từ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1191,7 +1192,7 @@
             <div class="subpage-container">
                 <h1>Tổng Hợp Đề Ôn Thi</h1>
                 <div class="test-list">
-                    <!-- Test item 1 -->
+                    <!-- CẬP NHẬT: Test item 1 (Thêm số câu hỏi) -->
                     <div class="test-item">
                         <div class="test-info">
                             <h3>Đề kiểm tra 15 phút - Unit 1: My New School</h3>
@@ -1199,21 +1200,37 @@
                         </div>
                         <button class="btn" onclick="startQuiz('unit1')">Bắt đầu làm bài</button>
                     </div>
-                    <!-- Test item 2 -->
+                    <!-- CẬP NHẬT: Test item 2 (Thêm số câu hỏi) -->
                     <div class="test-item">
                         <div class="test-info">
                             <h3>Đề thi giữa kỳ 1</h3>
-                            <p>Thời gian: 45 phút | Số câu hỏi: 30</p>
+                            <p>Thời gian: 45 phút | Số câu hỏi: 15</p>
                         </div>
                         <button class="btn" onclick="startQuiz('midterm1')">Bắt đầu làm bài</button>
                     </div>
-                    <!-- Test item 3 -->
+                    <!-- CẬP NHẬT: Test item 3 (Thêm số câu hỏi) -->
                     <div class="test-item">
                         <div class="test-info">
                             <h3>Đề kiểm tra từ vựng - Unit 1 & 2</h3>
-                            <p>Thời gian: 10 phút | Số câu hỏi: 15</p>
+                            <p>Thời gian: 15 phút | Số câu hỏi: 10</p>
                         </div>
                         <button class="btn" onclick="startQuiz('vocab1-2')">Bắt đầu làm bài</button>
+                    </div>
+                    <!-- MỚI: Test item 4 -->
+                    <div class="test-item">
+                        <div class="test-info">
+                            <h3>Đề thi cuối kỳ 1</h3>
+                            <p>Thời gian: 60 phút | Số câu hỏi: 20</p>
+                        </div>
+                        <button class="btn" onclick="startQuiz('finalterm1')">Bắt đầu làm bài</button>
+                    </div>
+                    <!-- MỚI: Test item 5 -->
+                    <div class="test-item">
+                        <div class="test-info">
+                            <h3>Đề thi giữa kỳ 2</h3>
+                            <p>Thời gian: 45 phút | Số câu hỏi: 15</p>
+                        </div>
+                        <button class="btn" onclick="startQuiz('midterm2')">Bắt đầu làm bài</button>
                     </div>
                 </div>
             </div>
@@ -2011,27 +2028,103 @@
 
         // --- 4. TÍNH NĂNG QUIZ (Global) ---
         
+        // CẬP NHẬT: Mở rộng đối tượng quizzes
         const quizzes = {
             'unit1': {
                 title: 'Đề kiểm tra 15 phút - Unit 1',
                 questions: [
                     { q: 'We ___ new students.', options: ['are', 'is', 'am', 'be'], answer: 0 },
                     { q: 'She ___ breakfast at 7 AM.', options: ['have', 'has', 'is', 'are'], answer: 1 },
-                    { q: 'My new school is ___ a quiet street.', options: ['in', 'at', 'on', 'with'], answer: 2 }
+                    { q: 'My new school is ___ a quiet street.', options: ['in', 'at', 'on', 'with'], answer: 2 },
+                    { q: 'What ___ your address?', options: ['is', 'are', 'am', 'be'], answer: 0 },
+                    { q: '___ they like Maths?', options: ['Do', 'Does', 'Are', 'Is'], answer: 0 },
+                    { q: 'He ___ his homework every day.', options: ['do', 'does', 'is doing', 'doing'], answer: 1 },
+                    { q: 'Look! The girls ___ rope.', options: ['is skipping', 'are skipping', 'skip', 'skips'], answer: 1 },
+                    { q: 'There ___ a library in my school.', options: ['is', 'are', 'am', 'be'], answer: 0 },
+                    { q: 'There ___ many trees in the park.', options: ['is', 'are', 'am', 'be'], answer: 1 },
+                    { q: 'I have Music ___ Monday.', options: ['in', 'at', 'on', 'with'], answer: 2 }
                 ]
             },
             'midterm1': {
                 title: 'Đề thi giữa kỳ 1',
                 questions: [
                     { q: 'What ___ your name?', options: ['are', 'is', 'am', 'be'], answer: 1 },
-                    { q: 'How old ___ you?', options: ['is', 'are', 'am', 'be'], answer: 1 }
+                    { q: 'How old ___ you?', options: ['is', 'are', 'am', 'be'], answer: 1 },
+                    { q: 'He lives ___ 123 Tran Hung Dao Street.', options: ['in', 'at', 'on', 'with'], answer: 1 },
+                    { q: 'My birthday is ___ September.', options: ['in', 'at', 'on', 'with'], answer: 0 },
+                    { q: 'What time ___ you get up?', options: ['does', 'is', 'do', 'are'], answer: 2 },
+                    { q: 'He often ___ football in the afternoon.', options: ['play', 'plays', 'is playing', 'are playing'], answer: 1 },
+                    { q: 'Where ___ your parents from?', options: ['is', 'are', 'do', 'does'], answer: 1 },
+                    { q: '___ is your school?', 'options': ['What', 'Where', 'When', 'Who'], answer: 1 },
+                    { q: 'It is ___ first floor.', options: ['in', 'at', 'on', 'with'], answer: 2 },
+                    { q: 'I ___ to school by bus every day.', options: ['go', 'goes', 'am going', 'is going'], answer: 0 },
+                    { q: 'What is your ___ subject?', options: ['favourite', 'like', 'good', 'nice'], answer: 0 },
+                    { q: 'How ___ lessons do you have today?', options: ['much', 'many', 'old', 'what'], answer: 1 },
+                    { q: 'She is ___ than her sister.', options: ['tall', 'taller', 'the tallest', 'more tall'], answer: 1 },
+                    { q: 'A supermarket is ___ than a shop.', options: ['big', 'bigger', 'the biggest', 'more big'], answer: 1 },
+                    { q: 'This is the ___ building in the city.', options: ['high', 'higher', 'highest', 'more high'], answer: 2 }
                 ]
             },
             'vocab1-2': {
                 title: 'Đề kiểm tra từ vựng - Unit 1 & 2',
                 questions: [
                     { q: 'Từ nào có nghĩa là "thư viện"?', options: ['Classroom', 'Library', 'Gym', 'Garden'], answer: 1 },
-                    { q: 'Từ nào có nghĩa là "bút chì"?', options: ['Pen', 'Book', 'Pencil', 'Ruler'], answer: 2 }
+                    { q: 'Từ nào có nghĩa là "bút chì"?', options: ['Pen', 'Book', 'Pencil', 'Ruler'], answer: 2 },
+                    { q: 'Từ nào có nghĩa là "sân chơi"?', options: ['Playground', 'Bedroom', 'Kitchen', 'Bathroom'], answer: 0 },
+                    { q: 'Từ nào có nghĩa là "gia đình"?', options: ['Friends', 'Teacher', 'Family', 'Student'], answer: 2 },
+                    { q: 'Từ nào có nghĩa là "địa chỉ"?', options: ['Name', 'Age', 'Address', 'Street'], answer: 2 },
+                    { q: 'Từ nào có nghĩa là "buổi sáng"?', options: ['Morning', 'Afternoon', 'Evening', 'Night'], answer: 0 },
+                    { q: 'Từ nào có nghĩa là "luôn luôn"?', options: ['Sometimes', 'Usually', 'Never', 'Always'], answer: 3 },
+                    { q: 'Từ nào có nghĩa là "thành phố"?', options: ['Village', 'Town', 'City', 'Country'], answer: 2 },
+                    { q: 'Từ nào có nghĩa là "môn học"?', options: ['Subject', 'Class', 'School', 'Teacher'], answer: 0 },
+                    { q: 'Từ nào có nghĩa là "bạn bè"?', options: ['Family', 'Parents', 'Friends', 'Brother'], answer: 2 }
+                ]
+            },
+            // MỚI: Đề thi cuối kỳ 1
+            'finalterm1': {
+                title: 'Đề thi cuối kỳ 1',
+                questions: [
+                    { q: 'Odd one out: (Tìm từ khác loại)', options: ['Father', 'Mother', 'Teacher', 'Sister'], answer: 2 },
+                    { q: 'Odd one out: (Tìm từ khác loại)', options: ['In', 'At', 'On', 'And'], answer: 3 },
+                    { q: 'Odd one out: (Tìm từ khác loại)', options: ['Book', 'Pen', 'Ruler', 'Play'], answer: 3 },
+                    { q: 'What did you do yesterday? - I ___ football.', options: ['play', 'played', 'am playing', 'plays'], answer: 1 },
+                    { q: 'Where did she go? - She ___ to the zoo.', options: ['go', 'goes', 'went', 'is going'], answer: 2 },
+                    { q: 'Did you ___ TV last night?', options: ['watch', 'watched', 'watching', 'watches'], answer: 0 },
+                    { q: 'He ___ born in 2015.', options: ['is', 'are', 'was', 'were'], answer: 2 },
+                    { q: 'They ___ at the beach last weekend.', options: ['is', 'are', 'was', 'were'], answer: 3 },
+                    { q: '___ you at home yesterday?', options: ['Is', 'Are', 'Was', 'Were'], answer: 3 },
+                    { q: 'What is ___ address? - It\'s 10 Le Loi Street.', options: ['you', 'your', 'my', 'his'], answer: 1 },
+                    { q: 'What do you do ___ the morning?', options: ['in', 'at', 'on', 'with'], answer: 0 },
+                    { q: 'I always ___ my teeth before breakfast.', options: ['brush', 'wash', 'do', 'have'], answer: 0 },
+                    { q: 'Hanoi is the ___ of Vietnam.', options: ['city', 'country', 'capital', 'village'], answer: 2 },
+                    { q: 'Ho Chi Minh city is ___ than Da Nang.', options: ['biger', 'more big', 'bigger', 'the biggest'], answer: 2 },
+                    { q: 'What is the ___ city in Vietnam?', options: ['big', 'bigger', 'biggest', 'more big'], answer: 2 },
+                    { q: 'Look! The baby ___.', options: ['sleep', 'sleeps', 'is sleeping', 'are sleeping'], answer: 2 },
+                    { q: 'My classroom is ___ the second floor.', options: ['in', 'at', 'on', 'with'], answer: 2 },
+                    { q: 'How ___ is a bowl of noodles? - It\'s 30,000 dong.', options: ['many', 'much', 'old', 'what'], answer: 1 },
+                    { q: 'How ___ apples do you want?', options: ['many', 'much', 'old', 'what'], answer: 0 },
+                    { q: 'What would you like to drink? - I\'d like ___ water.', options: ['a', 'an', 'some', 'any'], answer: 2 }
+                ]
+            },
+            // MỚI: Đề thi giữa kỳ 2
+            'midterm2': {
+                title: 'Đề thi giữa kỳ 2',
+                questions: [
+                    { q: 'Where ___ you go on holiday?', options: ['did', 'do', 'does', 'are'], answer: 0 },
+                    { q: 'I went ___ Ha Long Bay.', options: ['in', 'at', 'on', 'to'], answer: 3 },
+                    { q: 'What was the trip like? - It was ___', options: ['fun', 'funny', 'funnier', 'funniest'], answer: 0 },
+                    { q: '___ you join the funfair yesterday?', options: ['Do', 'Did', 'Were', 'Was'], answer: 1 },
+                    { q: 'No, I ___', options: ['don\'t', 'do', 'didn\'t', 'did'], answer: 2 },
+                    { q: 'What will you do this weekend? - I ___ visit my grandparents.', options: ['am', 'will', 'do', 'did'], answer: 1 },
+                    { q: '___ you like to go for a picnic?', options: ['Do', 'Are', 'Would', 'Will'], answer: 2 },
+                    { q: 'Yes, I\'d love ___', options: ['to', 'too', 'two', 'for'], answer: 0 },
+                    { q: 'Can you ___ the piano?', options: ['play', 'do', 'go', 'have'], answer: 0 },
+                    { q: 'She ___ speak English very well.', options: ['is', 'can', 'do', 'has'], answer: 1 },
+                    { q: 'You ___ play with matches. It\'s dangerous.', options: ['should', 'shouldn\'t', 'can', 'can\'t'], answer: 1 },
+                    { q: 'You ___ do your homework before going to school.', options: ['should', 'shouldn\'t', 'mustn\'t', 'can\'t'], answer: 0 },
+                    { q: 'Why ___ I go to the doctor?', options: ['should', 'do', 'can', 'must'], answer: 0 },
+                    { q: 'Because you have a ___', options: ['fever', 'head', 'arm', 'leg'], answer: 0 },
+                    { q: 'What\'s the matter ___ you?', options: ['on', 'with', 'in', 'at'], answer: 1 }
                 ]
             }
         };
@@ -3164,5 +3257,3 @@
 
 </body>
 </html>
-
-
