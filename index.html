@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English With Me - Website Học Tiếng Anh (v4 - AI)</title>
+    <title>English With Me - Website Học Tiếng Anh (v5 - Bảng Xếp Hạng)</title>
     <!-- Nhúng font Inter từ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -995,6 +995,40 @@
             margin-bottom: 20px;
         }
         
+        /* MỚI: CSS Bảng Xếp Hạng */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        .leaderboard-table th,
+        .leaderboard-table td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .leaderboard-table th {
+            background-color: var(--light-blue-bg);
+            color: var(--primary-color);
+        }
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        /* Icon cho top 3 */
+        .leaderboard-table td:first-child {
+            font-weight: bold;
+        }
+        .leaderboard-table tr:nth-child(1) td:first-child::before {
+            content: '🥇 ';
+        }
+        .leaderboard-table tr:nth-child(2) td:first-child::before {
+            content: '🥈 ';
+        }
+        .leaderboard-table tr:nth-child(3) td:first-child::before {
+            content: '🥉 ';
+        }
+        
     </style>
 </head>
 <body>
@@ -1023,6 +1057,8 @@
         <a href="#" data-page="globalsuccess" onclick="showPage('globalsuccess')">Global Success</a>
         <a href="#" data-page="tests" onclick="showPage('tests')">Tài liệu ôn thi</a>
         <a href="#" data-page="games" onclick="showPage('games')">Game</a>
+        <!-- MỚI: Thêm link Bảng xếp hạng -->
+        <a href="#" data-page="leaderboard" onclick="showPage('leaderboard')">Bảng xếp hạng</a>
     </nav>
 
     <!-- PHẦN 2: NỘI DUNG CÁC TRANG (Page) -->
@@ -1450,6 +1486,20 @@
             </div>
         </div> <!-- Kết thúc #page-profile -->
         
+        <!-- MỚI: Trang 12: Bảng Xếp Hạng -->
+        <div id="page-leaderboard" class="page">
+            <div class="subpage-container">
+                <h1>Bảng Xếp Hạng</h1>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">
+                    Thành tích của các học sinh có điểm cao nhất. Điểm được tính từ các bài kiểm tra (Quiz) và game (Điền vào chỗ trống).
+                </p>
+                <div id="leaderboard-table-container">
+                    <!-- Bảng xếp hạng sẽ được tạo bởi JS -->
+                    <p id="leaderboard-loading">Đang tải bảng xếp hạng...</p>
+                </div>
+            </div>
+        </div> <!-- Kết thúc #page-leaderboard -->
+
         <!-- TRANG BÀI HỌC (CẬP NHẬT VỚI TÍNH NĂNG MỚI) -->
 
         <!-- Cambridge Unit 1 -->
@@ -1653,7 +1703,9 @@
             addDoc, // MỚI: Cho bình luận
             query, // MỚI: Cho bình luận
             where, // MỚI: Cho bình luận
-            onSnapshot // MỚI: Cho bình luận real-time
+            onSnapshot, // MỚI: Cho bình luận real-time
+            // MỚI: Thêm increment cho bảng xếp hạng
+            increment 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- 0. KHAI BÁO BIẾN TOÀN CỤC CHO APP ---
@@ -1773,6 +1825,9 @@
         let wordLoadingEl, wordDisplayEl, wordImageEl, wordTermEl, wordDefinitionEl, wordExampleEl, wordErrorEl, newWordBtn;
         const apiKey = ""; // Sẽ được cung cấp lúc chạy
         let isFetchingWord = false; // Ngăn chặn việc nhấn nút nhiều lần
+        
+        // MỚI: Biến cho Bảng xếp hạng
+        let leaderboardContainerEl, leaderboardLoadingEl;
 
 
         // --- 1. HỆ THỐNG CHUYỂN TRANG (Global) ---
@@ -1819,8 +1874,13 @@
             if (pageId === 'profile') {
                 loadProfileData(); // Tải email, uid, kết quả quiz VÀ TIẾN ĐỘ BÀI HỌC
             }
+            
+            // 8. (MỚI) Tải dữ liệu bảng xếp hạng
+            if (pageId === 'leaderboard') {
+                loadLeaderboard();
+            }
 
-            // 8. Cuộn lên đầu trang
+            // 9. Cuộn lên đầu trang
             window.scrollTo(0, 0);
         }
 
@@ -2045,11 +2105,17 @@
             const resultText = `Bạn đã trả lời đúng ${score} / ${currentQuiz.questions.length} câu!`;
             quizScoreEl.textContent = resultText;
             
-            // Gọi hàm lưu kết quả vào Firestore
+            // Gọi hàm lưu kết quả vào Firestore (private)
             saveQuizResult(currentQuiz.id, score, currentQuiz.questions.length, currentQuiz.title);
+            
+            // MỚI: Cập nhật điểm lên bảng xếp hạng (public)
+            // Chỉ cộng điểm nếu user làm đúng > 0 câu
+            if (score > 0) {
+                updateUserScore(score); 
+            }
         }
 
-        // Hàm lưu kết quả quiz vào Firestore
+        // Hàm lưu kết quả quiz vào Firestore (Private - cho trang Profile)
         async function saveQuizResult(quizId, score, total, title) {
             if (!currentUser) {
                 console.log("Không thể lưu kết quả (người dùng chưa đăng nhập).");
@@ -2068,9 +2134,9 @@
                     timestamp: new Date() // Lưu lại thời gian làm bài
                 };
                 await setDoc(docRef, data); 
-                console.log("Đã lưu kết quả quiz:", quizId);
+                console.log("Đã lưu kết quả quiz (private):", quizId);
             } catch (error) {
-                console.error("Lỗi khi lưu kết quả quiz:", error);
+                console.error("Lỗi khi lưu kết quả quiz (private):", error);
             }
         }
 
@@ -2453,6 +2519,11 @@
             fbGameAreaEl.style.display = 'none';
             fbResultsEl.style.display = 'block';
             fbResultsScoreEl.textContent = `Bạn đúng ${fbScore} / ${fbGameData.length} câu.`;
+            
+            // MỚI: Cập nhật điểm lên bảng xếp hạng (public)
+            if (fbScore > 0) {
+                updateUserScore(fbScore);
+            }
         }
 
         // --- 6. (MỚI) TÍNH NĂNG TIẾN ĐỘ BÀI HỌC ---
@@ -2830,7 +2901,116 @@
         }
 
 
-        // --- 9. KHỞI TẠO APP KHI DOM ĐÃ TẢI ---
+        // --- 9. (MỚI) TÍNH NĂNG BẢNG XẾP HẠNG (Viết điểm) ---
+
+        /**
+         * Cập nhật tổng điểm của người dùng trên bảng xếp hạng (public).
+         * @param {number} scoreToAdd Số điểm muốn cộng thêm.
+         */
+        async function updateUserScore(scoreToAdd) {
+            if (!currentUser || currentUser.isAnonymous) {
+                // Không lưu điểm cho khách hoặc người dùng ẩn danh
+                console.log("Không lưu điểm (khách/ẩn danh).");
+                return; 
+            }
+            
+            if (scoreToAdd <= 0) return; // Không làm gì nếu điểm là 0
+
+            // Đường dẫn public: /artifacts/{appId}/public/data/leaderboard/{userId}
+            const docRef = doc(db, "artifacts", appId, "public", "data", "leaderboard", currentUser.uid);
+
+            try {
+                // Sử dụng setDoc với { merge: true } và increment
+                // để tạo mới hoặc cập nhật tài liệu
+                await setDoc(docRef, {
+                    totalScore: increment(scoreToAdd), // Cộng dồn điểm
+                    userId: currentUser.uid,
+                    // Lưu email để hiển thị (chỉ lưu phần trước @)
+                    displayName: currentUser.email ? currentUser.email.split('@')[0] : currentUser.uid.substring(0, 6),
+                    lastUpdated: new Date()
+                }, { merge: true }); // Merge: true để không ghi đè các trường khác nếu doc tồn tại
+
+                console.log(`Đã cập nhật ${scoreToAdd} điểm cho user ${currentUser.uid} (public)`);
+                
+            } catch (error) {
+                console.error("Lỗi khi cập nhật điểm (leaderboard):", error);
+            }
+        }
+        
+        // --- 10. (MỚI) TÍNH NĂNG BẢNG XẾP HẠNG (Đọc điểm) ---
+
+        async function loadLeaderboard() {
+            leaderboardContainerEl.innerHTML = '<p id="leaderboard-loading">Đang tải bảng xếp hạng...</p>';
+            
+            // Đường dẫn public: /artifacts/{appId}/public/data/leaderboard
+            const collRef = collection(db, "artifacts", appId, "public", "data", "leaderboard");
+            
+            // Tạo query: Lấy tất cả
+            // Chúng ta sẽ không dùng orderBy("totalScore", "desc") vì nó yêu cầu index
+            // Thay vào đó, chúng ta sẽ sắp xếp thủ công bằng JS
+            const q = query(collRef); 
+
+            try {
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    leaderboardContainerEl.innerHTML = '<p>Chưa có ai trên bảng xếp hạng. Hãy chơi game để trở thành người đầu tiên!</p>';
+                    return;
+                }
+                
+                let leaderboardData = [];
+                querySnapshot.forEach((doc) => {
+                    leaderboardData.push(doc.data());
+                });
+                
+                // Sắp xếp thủ công bằng JavaScript (giảm dần)
+                leaderboardData.sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
+                
+                // Lấy 10 người đứng đầu
+                const top10 = leaderboardData.slice(0, 10);
+
+                // Render bảng
+                let html = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Hạng</th>
+                                <th>Tên người chơi</th>
+                                <th>Tổng điểm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                top10.forEach((data, index) => {
+                    const rank = index + 1;
+                    const name = data.displayName || data.userId.substring(0, 6) || 'Anonymous';
+                    const score = data.totalScore || 0;
+                    
+                    html += `
+                        <tr>
+                            <td>${rank}</td>
+                            <td>${name}</td>
+                            <td>${score}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                leaderboardContainerEl.innerHTML = html;
+
+            } catch (error) {
+                console.error("Lỗi khi tải bảng xếp hạng:", error);
+                leaderboardContainerEl.innerHTML = '<p style="color: red;">Không thể tải bảng xếp hạng. Vui lòng thử lại.</p>';
+            }
+        }
+
+
+        // --- 11. KHỞI TẠO APP KHI DOM ĐÃ TẢI ---
         
         document.addEventListener('DOMContentLoaded', async () => {
             
@@ -2946,6 +3126,10 @@
             wordExampleEl = document.getElementById('word-example');
             wordErrorEl = document.getElementById('word-error');
             newWordBtn = document.getElementById('new-word-btn');
+            
+            // MỚI: Gán element cho Bảng xếp hạng
+            leaderboardContainerEl = document.getElementById('leaderboard-table-container');
+            leaderboardLoadingEl = document.getElementById('leaderboard-loading');
 
             // Thêm trình xử lý sự kiện
             document.getElementById('login-form').addEventListener('submit', handleLogin);
