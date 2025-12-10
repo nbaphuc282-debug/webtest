@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biệt Đội Giao Thông Xanh - TH Nam Hà test 1.2.0 </title>
+    <title>Biệt Đội Giao Thông Xanh - TH Nam Hà test 2</title>
     
     <!-- Google Fonts: Baloo 2 & Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -920,28 +920,134 @@
 
         // --- Traffic Quiz ---
         const TrafficQuiz = () => {
-            const questions = [
-                { q: "Đèn đỏ bật sáng, chúng mình phải làm gì?", a: ["Dừng lại ngay", "Đi tiếp đi", "Đi chậm thôi"], correct: 0 },
-                { q: "Muốn sang đường an toàn, mình đi vào đâu?", a: ["Đi đâu cũng được", "Vạch kẻ đường (ngựa vằn)", "Giữa ngã tư"], correct: 1 },
-                { q: "Ngồi sau xe máy, bé nhớ làm gì?", a: ["Đứng lên yên xe", "Không cần làm gì", "Đội mũ bảo hiểm"], correct: 2 },
-            ];
-            const [idx, setIdx] = useState(0); const [score, setScore] = useState(0); const [finished, setFinished] = useState(false);
-            const handleAns = (i) => { if (i === questions[idx].correct) setScore(score + 1); if (idx < questions.length - 1) setIdx(idx + 1); else setFinished(true); };
+            const [questions, setQuestions] = useState([]);
+            const [idx, setIdx] = useState(0);
+            const [score, setScore] = useState(0);
+            const [finished, setFinished] = useState(false);
+            const [loading, setLoading] = useState(true);
+
+            // Fetch Data on Load
+            useEffect(() => {
+                const initQuiz = async () => {
+                    try {
+                        // 1. Get Settings (Quiz Limit)
+                        let quizLimit = 10;
+                        const settingsSnap = await getDoc(doc(db, 'quiz_settings', 'config'));
+                        if (settingsSnap.exists()) {
+                            quizLimit = settingsSnap.data().quizLimit || 10;
+                        }
+
+                        // 2. Get All Questions
+                        const qSnap = await getDocs(collection(db, 'quiz_questions'));
+                        const allQuestions = qSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                        // 3. Shuffle & Slice
+                        if (allQuestions.length > 0) {
+                            // Fisher-Yates Shuffle
+                            for (let i = allQuestions.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+                            }
+                            setQuestions(allQuestions.slice(0, quizLimit));
+                        }
+                    } catch (err) {
+                        console.error("Lỗi tải câu hỏi:", err);
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+                initQuiz();
+            }, []);
+
+            const handleAns = (i) => {
+                // Check correct option
+                if (i === questions[idx].correctOption) {
+                    setScore(score + 1);
+                }
+                
+                // Move to next or finish
+                if (idx < questions.length - 1) {
+                    setIdx(idx + 1);
+                } else {
+                    setFinished(true);
+                }
+            };
+
+            // Loading State
+            if (loading) return (
+                <div className="max-w-2xl mx-auto bg-white rounded-3xl p-10 text-center shadow-xl border-4 border-slate-100">
+                    <div className="animate-spin w-10 h-10 border-4 border-brand-blue border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <p className="font-bold text-slate-500">Đang trộn đề thi...</p>
+                </div>
+            );
+
+            // Empty State
+            if (questions.length === 0) return (
+                <div className="max-w-2xl mx-auto bg-white rounded-3xl p-10 text-center shadow-xl border-4 border-slate-100">
+                    <div className="text-4xl mb-4">📭</div>
+                    <h3 className="font-display text-xl font-black text-slate-800">Chưa có câu hỏi nào!</h3>
+                    <p className="text-slate-500">Hãy nhờ thầy cô Admin thêm câu hỏi vào ngân hàng nhé.</p>
+                </div>
+            );
+
             return (
-                <div className="max-w-2xl mx-auto bg-white rounded-3xl border-b-8 border-r-8 border-traffic-red border-t-2 border-l-2 border-slate-800 p-8 shadow-2xl relative">
+                <div className="max-w-2xl mx-auto bg-white rounded-3xl border-b-8 border-r-8 border-traffic-red border-t-2 border-l-2 border-slate-800 p-8 shadow-2xl relative animate-fade-in">
                     <div className="absolute -top-6 -left-6 transform -rotate-12 bg-traffic-yellow px-4 py-2 rounded-lg font-black border-2 border-black shadow-cartoon">ĐỐ VUI!</div>
+                    
                     {!finished ? (
                         <div className="text-center">
-                            <h3 className="font-display text-2xl font-black text-slate-800 mb-6">{questions[idx].q}</h3>
-                            <div className="grid gap-3">{questions[idx].a.map((ans, i) => (<button key={i} onClick={() => handleAns(i)} className="p-4 rounded-xl bg-slate-50 hover:bg-brand-blue hover:text-white font-bold border-2 border-slate-200 transition-all shadow-sm">{ans}</button>))}</div>
-                            <div className="mt-6 flex justify-center gap-2">{questions.map((_, i) => <div key={i} className={`h-2 w-8 rounded-full ${i === idx ? 'bg-traffic-red' : 'bg-slate-200'}`}></div>)}</div>
+                            <div className="flex justify-between items-center mb-6 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                <span>Câu hỏi {idx + 1}/{questions.length}</span>
+                                <span>Điểm: {score}</span>
+                            </div>
+                            
+                            {questions[idx].image && (
+                                <img src={questions[idx].image} alt="Minh họa" className="mx-auto h-40 object-contain rounded-xl border-2 border-slate-200 mb-4 bg-slate-50" />
+                            )}
+
+                            <h3 className="font-display text-2xl font-black text-slate-800 mb-6 min-h-[4rem] flex items-center justify-center">
+                                {questions[idx].question}
+                            </h3>
+                            
+                            <div className="grid gap-3">
+                                {questions[idx].options.map((ans, i) => (
+                                    <button 
+                                        key={i} 
+                                        onClick={() => handleAns(i)} 
+                                        className="p-4 rounded-xl bg-slate-50 hover:bg-brand-blue hover:text-white font-bold border-2 border-slate-200 transition-all shadow-sm text-left flex items-center gap-3 group"
+                                    >
+                                        <span className="w-8 h-8 rounded-full bg-white text-slate-800 flex items-center justify-center border-2 border-slate-200 group-hover:border-white text-sm font-black">
+                                            {String.fromCharCode(65 + i)}
+                                        </span>
+                                        {ans}
+                                    </button>
+                                ))}
+                            </div>
+                            
+                            <div className="mt-8 flex justify-center gap-1">
+                                {questions.map((_, i) => (
+                                    <div key={i} className={`h-1.5 flex-1 rounded-full transition-colors ${i <= idx ? 'bg-brand-blue' : 'bg-slate-100'}`}></div>
+                                ))}
+                            </div>
                         </div>
                     ) : (
-                        <div className="text-center">
-                            <div className="text-6xl mb-4">🏆</div>
-                            <h3 className="font-display text-3xl font-black text-slate-800 mb-2">Hoan hô!</h3>
-                            <p className="text-xl font-bold text-slate-500">Bé trả lời đúng {score}/{questions.length} câu.</p>
-                            <button onClick={() => {setIdx(0); setScore(0); setFinished(false)}} className="mt-6 bg-traffic-green text-white px-8 py-3 rounded-full font-black shadow-cartoon btn-cartoon">Chơi lại nào</button>
+                        <div className="text-center py-8">
+                            <div className="text-6xl mb-4 animate-bounce">
+                                {score === questions.length ? '🏆' : (score > questions.length / 2 ? '🎉' : '😅')}
+                            </div>
+                            <h3 className="font-display text-3xl font-black text-slate-800 mb-2">
+                                {score === questions.length ? 'Tuyệt đỉnh!' : (score > questions.length / 2 ? 'Làm tốt lắm!' : 'Cố gắng hơn nhé!')}
+                            </h3>
+                            <p className="text-xl font-bold text-slate-500 mb-8">
+                                Bạn trả lời đúng <span className="text-brand-blue text-2xl">{score}/{questions.length}</span> câu.
+                            </p>
+                            
+                            <button 
+                                onClick={() => window.location.reload()} 
+                                className="bg-traffic-green text-white px-8 py-4 rounded-2xl font-black shadow-cartoon btn-cartoon flex items-center gap-2 mx-auto"
+                            >
+                                <Undo2 className="w-5 h-5"/> THI LẠI NGAY
+                            </button>
                         </div>
                     )}
                 </div>
@@ -1044,12 +1150,7 @@
                                         </div>
                                     </div>
                                     <div className="w-64 h-64 bg-white rounded-full flex items-center justify-center border-8 border-white/20 shadow-2xl animate-bounce-slow overflow-hidden">
-                                        <img 
-                                            src="https://img.freepik.com/free-vector/children-crossing-street-illustration_1308-2747.jpg" 
-                                            alt="Học sinh tham gia giao thông" 
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {e.target.src = 'https://placehold.co/400x400/png?text=Hoc+Sinh'}}
-                                        />
+                                        {/* REMOVED IMAGE HERE */}
                                     </div>
                                 </div>
                             </div>
@@ -1071,7 +1172,7 @@
                     case 'reporter': return <LittleReporter />;
                     case 'quiz': return <TrafficQuiz />;
                     case 'admin': return user ? <AdminDashboard onLogout={() => signOut(auth)} /> : <Login />;
-                    case 'map': return <InteractiveMap isAdmin={!!user} />; 
+                    case 'map': return <InteractiveMap isAdmin={!!user} />; // Re-enabled Map Component
                     case 'login': return <Login />;
                     default: return <div className="p-8 text-center font-bold text-slate-500">Nội dung đang được cập nhật...</div>;
                 }
