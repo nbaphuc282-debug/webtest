@@ -112,11 +112,11 @@
         import { createRoot } from 'react-dom/client';
         import { 
           Map, AlertTriangle, FileText, Megaphone, Shield, 
-          Award, LogIn, Plus, Trash2, Save, Menu, X, Edit,
+          Award, LogIn, LogOut, Plus, Trash2, Save, Menu, X, Edit,
           Navigation, Info, User, Layout, MapPin, CheckSquare, XCircle,
           Eye, EyeOff, MousePointer2, Undo2, ArrowLeft, Calendar,
           Bold, Italic, Underline, Search, MessageSquare, CheckCircle, HelpCircle, LocateFixed,
-          GraduationCap, BookOpen, Star, Heart, Camera, Flag, Siren, Layers, Home, ChevronDown
+          GraduationCap, BookOpen, Star, Heart, Camera, Flag, Siren, Layers, Home, ChevronDown, Lock
         } from 'lucide-react';
         import { initializeApp } from 'firebase/app';
         import { 
@@ -749,10 +749,10 @@
                     <div className="w-full max-w-md bg-white p-8 rounded-3xl border-4 border-traffic-yellow shadow-2xl">
                         <div className="text-center mb-6">
                             <div className="w-20 h-20 bg-traffic-dark rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-cartoon text-white">
-                                <User size={40} />
+                                <Lock size={40} />
                             </div>
-                            <h2 className="font-display text-3xl font-black text-slate-800">Đăng nhập Admin</h2>
-                            <p className="text-slate-500 font-bold text-sm">Hệ thống Quản trị An toàn Giao thông</p>
+                            <h2 className="font-display text-3xl font-black text-slate-800">Cổng Đăng Nhập An Ninh</h2>
+                            <p className="text-slate-500 font-bold text-sm">Dành riêng cho Quản trị viên</p>
                         </div>
 
                         <form onSubmit={handleLogin} className="space-y-4">
@@ -762,7 +762,7 @@
                                     type="email" 
                                     required
                                     className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-3 font-bold focus:border-brand-blue outline-none transition-colors" 
-                                    placeholder="example@namha.edu.vn"
+                                    placeholder="admin@truongnamha.edu.vn"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -785,7 +785,7 @@
                                 disabled={isLoading}
                                 className="w-full bg-brand-blue text-white font-bold py-3 rounded-xl shadow-cartoon btn-cartoon hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
                             >
-                                {isLoading ? 'Đang xử lý...' : <><LogIn size={20}/> Đăng nhập</>}
+                                {isLoading ? 'Đang xác thực...' : <><LogIn size={20}/> Truy cập Hệ thống</>}
                             </button>
                         </form>
                     </div>
