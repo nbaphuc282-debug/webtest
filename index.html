@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biệt Đội Giao Thông Xanh - TH Nam Hà test 1</title>
+    <title>Biệt Đội Giao Thông Xanh - TH Nam Hà</title>
     
     <!-- Google Fonts: Baloo 2 & Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -123,12 +123,13 @@
           Navigation, Info, User, Layout, MapPin, CheckSquare, XCircle,
           Eye, EyeOff, MousePointer2, Undo2, ArrowLeft, Calendar,
           Bold, Italic, Underline, Search, MessageSquare, CheckCircle, HelpCircle, LocateFixed,
-          GraduationCap, BookOpen, Star, Heart, Camera, Flag, Siren, Layers, Video
+          GraduationCap, BookOpen, Star, Heart, Camera, Flag, Siren, Layers, Video,
+          Settings, Database, List
         } from 'lucide-react';
         import { initializeApp } from 'firebase/app';
         import { 
           getFirestore, collection, addDoc, getDocs, 
-          deleteDoc, doc, query, orderBy, onSnapshot, serverTimestamp, updateDoc, limit, where 
+          deleteDoc, doc, query, orderBy, onSnapshot, serverTimestamp, updateDoc, limit, where, setDoc 
         } from 'firebase/firestore';
         import { 
           getAuth, signInWithEmailAndPassword, signOut, 
@@ -442,7 +443,7 @@
             );
         };
 
-        // --- Skills Page Component (NEW) ---
+        // --- Skills Page Component ---
         const SkillsPage = () => {
             const [skills, setSkills] = useState([]);
             const [loading, setLoading] = useState(true);
@@ -497,10 +498,28 @@
             const [markerType, setMarkerType] = useState('C');
             const [isVisible, setIsVisible] = useState(true); 
 
+            // Quiz Management States
+            const [quizSubTab, setQuizSubTab] = useState('questions'); // 'categories', 'questions', 'settings'
+            const [quizCategories, setQuizCategories] = useState([]);
+            const [quizQuestions, setQuizQuestions] = useState([]);
+            const [quizSettings, setQuizSettings] = useState({ quizLimit: 10 });
+            
+            // Quiz Form States
+            const [qText, setQText] = useState('');
+            const [qImg, setQImg] = useState('');
+            const [optA, setOptA] = useState('');
+            const [optB, setOptB] = useState('');
+            const [optC, setOptC] = useState('');
+            const [optD, setOptD] = useState('');
+            const [correctOpt, setCorrectOpt] = useState('0'); // Index 0-3
+            const [targetCat, setTargetCat] = useState(''); // ID of category
+            const [catName, setCatName] = useState(''); // For category form
+            const [quizLimitInput, setQuizLimitInput] = useState(10);
+
             // Lists
             const [adminPosts, setAdminPosts] = useState([]);
             const [adminDocs, setAdminDocs] = useState([]);
-            const [adminSkills, setAdminSkills] = useState([]); // State for Skills
+            const [adminSkills, setAdminSkills] = useState([]);
             const [mapItems, setMapItems] = useState([]);
             const [reports, setReports] = useState([]);
 
@@ -508,24 +527,43 @@
                 let unsubscribe = () => {};
                 if (activeTab === 'news') { const q = query(collection(db, 'news'), orderBy('createdAt', 'desc'), limit(50)); unsubscribe = onSnapshot(q, (s) => setAdminPosts(s.docs.map(d => ({id: d.id, ...d.data()})))); }
                 else if (activeTab === 'docs') { const q = query(collection(db, 'documents'), orderBy('createdAt', 'desc'), limit(50)); unsubscribe = onSnapshot(q, (s) => setAdminDocs(s.docs.map(d => ({id: d.id, ...d.data()})))); }
-                else if (activeTab === 'skills') { const q = query(collection(db, 'skills'), orderBy('createdAt', 'desc'), limit(50)); unsubscribe = onSnapshot(q, (s) => setAdminSkills(s.docs.map(d => ({id: d.id, ...d.data()})))); } // Fetch Skills
+                else if (activeTab === 'skills') { const q = query(collection(db, 'skills'), orderBy('createdAt', 'desc'), limit(50)); unsubscribe = onSnapshot(q, (s) => setAdminSkills(s.docs.map(d => ({id: d.id, ...d.data()})))); } 
                 else if (activeTab === 'map') { const q = query(collection(db, 'map_markers'), orderBy('createdAt', 'desc')); unsubscribe = onSnapshot(q, (s) => setMapItems(s.docs.map(d => ({id: d.id, ...d.data()})))); }
                 else if (activeTab === 'reports') { const q = query(collection(db, 'reports'), orderBy('createdAt', 'desc'), limit(50)); unsubscribe = onSnapshot(q, (s) => setReports(s.docs.map(d => ({id: d.id, ...d.data()})))); }
+                else if (activeTab === 'quiz') {
+                    // Load Quiz Data based on subtab or load all initially
+                    const unsubCats = onSnapshot(query(collection(db, 'quiz_categories'), orderBy('createdAt', 'desc')), (s) => setQuizCategories(s.docs.map(d => ({id: d.id, ...d.data()}))));
+                    const unsubQs = onSnapshot(query(collection(db, 'quiz_questions'), orderBy('createdAt', 'desc')), (s) => setQuizQuestions(s.docs.map(d => ({id: d.id, ...d.data()}))));
+                    const unsubSettings = onSnapshot(doc(db, 'quiz_settings', 'config'), (doc) => {
+                         if (doc.exists()) { setQuizSettings(doc.data()); setQuizLimitInput(doc.data().quizLimit); }
+                    });
+                    unsubscribe = () => { unsubCats(); unsubQs(); unsubSettings(); };
+                }
                 return () => unsubscribe();
             }, [activeTab]);
 
-            const resetForm = () => { setTitle(''); setContent(''); setCategory(activeTab === 'skills' ? 'Đi bộ an toàn' : 'Tin tức'); setLat(''); setLng(''); setCoordString(''); setIsVisible(true); setEditingId(null); };
+            const resetForm = () => { 
+                setTitle(''); setContent(''); setCategory(activeTab === 'skills' ? 'Đi bộ an toàn' : 'Tin tức'); 
+                setLat(''); setLng(''); setCoordString(''); setIsVisible(true); setEditingId(null);
+                // Quiz reset
+                setQText(''); setQImg(''); setOptA(''); setOptB(''); setOptC(''); setOptD(''); setCorrectOpt('0'); setTargetCat(''); setCatName('');
+            };
             
             const handleEdit = (item) => {
-                setEditingId(item.id); setTitle(item.title || item.label); 
+                setEditingId(item.id); 
                 if (activeTab === 'map') {
-                    setMarkerType(item.type); setGeometryType(item.geometryType || 'point'); setIsVisible(item.isVisible !== false);
+                    setTitle(item.label); setMarkerType(item.type); setGeometryType(item.geometryType || 'point'); setIsVisible(item.isVisible !== false);
                     if (item.geometryType === 'point' || !item.geometryType) { setLat(item.lat); setLng(item.lng); setCoordString(''); }
-                    else { 
-                        setCoordString(item.coordinates?.map(p => p.join(',')).join('; ') || ''); 
-                        setLat(''); setLng(''); 
+                    else { setCoordString(item.coordinates?.map(p => p.join(',')).join('; ') || ''); setLat(''); setLng(''); }
+                } else if (activeTab === 'quiz') {
+                    if (quizSubTab === 'categories') { setCatName(item.name); }
+                    if (quizSubTab === 'questions') {
+                         setQText(item.question); setQImg(item.image || ''); setOptA(item.options[0]); setOptB(item.options[1]); setOptC(item.options[2]); setOptD(item.options[3]);
+                         setCorrectOpt(item.correctOption.toString()); setTargetCat(item.categoryId);
                     }
-                } else { setContent(item.content); setCategory(item.category || (activeTab === 'skills' ? 'Đi bộ an toàn' : 'Tin tức')); }
+                } else { 
+                    setTitle(item.title || item.label); setContent(item.content); setCategory(item.category || (activeTab === 'skills' ? 'Đi bộ an toàn' : 'Tin tức')); 
+                }
             };
 
             const handleMapClick = (coords) => {
@@ -538,18 +576,36 @@
                 e.preventDefault(); setStatus('Đang xử lý...');
                 try {
                     let col;
-                    if (activeTab === 'map') col = 'map_markers';
-                    else if (activeTab === 'news') col = 'news';
-                    else if (activeTab === 'docs') col = 'documents';
-                    else if (activeTab === 'skills') col = 'skills'; // Set collection for skills
-
-                    let data = activeTab === 'map' ? { label: title, type: markerType, geometryType, isVisible } : { title, content, category };
-                    if (activeTab === 'map') {
+                    let data;
+                    if (activeTab === 'map') { col = 'map_markers'; data = { label: title, type: markerType, geometryType, isVisible };
                         if (geometryType === 'point') { data.lat = parseFloat(lat); data.lng = parseFloat(lng); }
                         else { data.coordinates = coordString.split(';').map(p => { const [la, lo] = p.trim().split(','); return [parseFloat(la), parseFloat(lo)]; }); }
                     }
+                    else if (activeTab === 'news') { col = 'news'; data = { title, content, category }; }
+                    else if (activeTab === 'docs') { col = 'documents'; data = { title, content, category }; }
+                    else if (activeTab === 'skills') { col = 'skills'; data = { title, content, category }; }
+
                     if (!editingId) data.createdAt = serverTimestamp();
                     editingId ? await updateDoc(doc(db, col, editingId), data) : await addDoc(collection(db, col), data);
+                    setStatus('Thành công!'); resetForm(); setTimeout(() => setStatus(''), 2000);
+                } catch (err) { setStatus('Lỗi: ' + err.message); }
+            };
+
+            // Specific Quiz Handlers
+            const handleQuizSubmit = async (e) => {
+                e.preventDefault(); setStatus('Đang lưu...');
+                try {
+                    if (quizSubTab === 'categories') {
+                        const data = { name: catName, createdAt: serverTimestamp() };
+                        editingId ? await updateDoc(doc(db, 'quiz_categories', editingId), data) : await addDoc(collection(db, 'quiz_categories'), data);
+                    } else if (quizSubTab === 'questions') {
+                         const data = {
+                            question: qText, image: qImg, options: [optA, optB, optC, optD], correctOption: parseInt(correctOpt), categoryId: targetCat, createdAt: serverTimestamp()
+                         };
+                         editingId ? await updateDoc(doc(db, 'quiz_questions', editingId), data) : await addDoc(collection(db, 'quiz_questions'), data);
+                    } else if (quizSubTab === 'settings') {
+                        await setDoc(doc(db, 'quiz_settings', 'config'), { quizLimit: parseInt(quizLimitInput) });
+                    }
                     setStatus('Thành công!'); resetForm(); setTimeout(() => setStatus(''), 2000);
                 } catch (err) { setStatus('Lỗi: ' + err.message); }
             };
@@ -587,8 +643,118 @@
                         <button onClick={() => {setActiveTab('skills'); resetForm();}} className={`px-4 py-2 rounded-xl font-bold border-2 transition-all whitespace-nowrap ${activeTab === 'skills' ? 'bg-orange-100 border-orange-500 text-orange-700' : 'border-slate-200 text-slate-500'}`}>🎓 Kỹ năng</button>
                         <button onClick={() => {setActiveTab('docs'); resetForm();}} className={`px-4 py-2 rounded-xl font-bold border-2 transition-all whitespace-nowrap ${activeTab === 'docs' ? 'bg-yellow-100 border-yellow-500 text-yellow-700' : 'border-slate-200 text-slate-500'}`}>📂 Văn bản</button>
                         <button onClick={() => {setActiveTab('map'); resetForm();}} className={`px-4 py-2 rounded-xl font-bold border-2 transition-all whitespace-nowrap ${activeTab === 'map' ? 'bg-traffic-dark border-slate-800 text-white' : 'border-slate-200 text-slate-500'}`}>🗺️ Bản đồ (GIS)</button>
+                        <button onClick={() => {setActiveTab('quiz'); resetForm();}} className={`px-4 py-2 rounded-xl font-bold border-2 transition-all whitespace-nowrap ${activeTab === 'quiz' ? 'bg-green-100 border-green-500 text-green-700' : 'border-slate-200 text-slate-500'}`}>❓ Quản lý Đố vui</button>
                         <button onClick={() => {setActiveTab('reports'); resetForm();}} className={`px-4 py-2 rounded-xl font-bold border-2 transition-all whitespace-nowrap ${activeTab === 'reports' ? 'bg-purple-100 border-purple-500 text-purple-700' : 'border-slate-200 text-slate-500'}`}>📡 Báo cáo Măng non</button>
                     </div>
+
+                    {activeTab === 'quiz' && (
+                        <div>
+                             <div className="flex gap-4 mb-4 border-b border-slate-100 pb-2">
+                                <button onClick={() => setQuizSubTab('questions')} className={`font-bold flex items-center gap-2 ${quizSubTab === 'questions' ? 'text-brand-blue underline' : 'text-slate-400'}`}><Database size={16}/> Ngân hàng câu hỏi</button>
+                                <button onClick={() => setQuizSubTab('categories')} className={`font-bold flex items-center gap-2 ${quizSubTab === 'categories' ? 'text-brand-blue underline' : 'text-slate-400'}`}><List size={16}/> Danh mục chủ đề</button>
+                                <button onClick={() => setQuizSubTab('settings')} className={`font-bold flex items-center gap-2 ${quizSubTab === 'settings' ? 'text-brand-blue underline' : 'text-slate-400'}`}><Settings size={16}/> Cấu hình thi</button>
+                             </div>
+
+                             {quizSubTab === 'settings' && (
+                                 <div className="bg-slate-50 p-6 rounded-2xl border-2 border-slate-200 max-w-lg">
+                                     <h3 className="font-bold text-slate-700 mb-4">Cấu hình bài thi chung</h3>
+                                     <div className="mb-4">
+                                        <label className="block text-sm font-bold text-slate-600 mb-2">Số lượng câu hỏi hiển thị mỗi lần thi</label>
+                                        <input type="number" className="w-full p-3 rounded-xl border-2 border-slate-200 font-bold" value={quizLimitInput} onChange={(e) => setQuizLimitInput(e.target.value)} />
+                                     </div>
+                                     <button onClick={handleQuizSubmit} className="bg-brand-blue text-white px-6 py-2 rounded-xl font-bold shadow-cartoon btn-cartoon">Lưu cấu hình</button>
+                                     {status && <span className="ml-3 font-bold text-green-600">{status}</span>}
+                                 </div>
+                             )}
+
+                             {quizSubTab === 'categories' && (
+                                 <div className="grid md:grid-cols-3 gap-6">
+                                     <div className="md:col-span-1">
+                                         <form onSubmit={handleQuizSubmit} className="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
+                                            <h3 className="font-bold text-slate-700 mb-3">{editingId ? 'Sửa' : 'Thêm'} Danh mục</h3>
+                                            <input required className="w-full p-3 rounded-xl border-2 border-slate-200 font-bold mb-3" placeholder="Tên danh mục (VD: Biển báo)" value={catName} onChange={e=>setCatName(e.target.value)}/>
+                                            <div className="flex gap-2">
+                                                <button className="flex-1 bg-brand-blue text-white py-2 rounded-xl font-bold shadow-cartoon btn-cartoon">{editingId ? 'Cập nhật' : 'Thêm'}</button>
+                                                {editingId && <button type="button" onClick={resetForm} className="px-4 bg-slate-200 rounded-xl font-bold">Hủy</button>}
+                                            </div>
+                                         </form>
+                                     </div>
+                                     <div className="md:col-span-2 space-y-2">
+                                         {quizCategories.map(cat => (
+                                             <div key={cat.id} className="flex justify-between items-center p-3 bg-white border-2 border-slate-100 rounded-xl">
+                                                 <span className="font-bold text-slate-700">{cat.name}</span>
+                                                 <div className="flex gap-2">
+                                                     <button onClick={() => handleEdit(cat)} className="text-blue-500 hover:bg-blue-50 p-2 rounded"><Edit size={16}/></button>
+                                                     <button onClick={() => handleDelete('quiz_categories', cat.id)} className="text-red-500 hover:bg-red-50 p-2 rounded"><Trash2 size={16}/></button>
+                                                 </div>
+                                             </div>
+                                         ))}
+                                         {quizCategories.length === 0 && <p className="text-slate-400 italic">Chưa có danh mục nào.</p>}
+                                     </div>
+                                 </div>
+                             )}
+
+                             {quizSubTab === 'questions' && (
+                                <div className="grid lg:grid-cols-3 gap-6">
+                                    <div className="lg:col-span-1">
+                                         <form onSubmit={handleQuizSubmit} className="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 space-y-3">
+                                            <h3 className="font-bold text-slate-700 mb-2">{editingId ? 'Sửa câu hỏi' : 'Thêm câu hỏi mới'}</h3>
+                                            <select required className="w-full p-2 rounded-xl border-2 border-slate-200 font-bold text-sm" value={targetCat} onChange={e=>setTargetCat(e.target.value)}>
+                                                <option value="">-- Chọn danh mục --</option>
+                                                {quizCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                            </select>
+                                            <textarea required className="w-full p-3 rounded-xl border-2 border-slate-200 font-bold text-sm h-24" placeholder="Nội dung câu hỏi..." value={qText} onChange={e=>setQText(e.target.value)}></textarea>
+                                            <input className="w-full p-2 rounded-xl border-2 border-slate-200 text-sm" placeholder="Link ảnh minh họa (nếu có)" value={qImg} onChange={e=>setQImg(e.target.value)}/>
+                                            
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-bold text-slate-500">Nhập 4 đáp án & Chọn đáp án đúng:</label>
+                                                {[optA, optB, optC, optD].map((opt, idx) => (
+                                                    <div key={idx} className="flex gap-2 items-center">
+                                                        <input type="radio" name="correctOpt" checked={correctOpt == idx} onChange={() => setCorrectOpt(idx.toString())} className="w-4 h-4 text-brand-blue accent-brand-blue"/>
+                                                        <input required className={`flex-1 p-2 rounded-lg border-2 text-sm ${correctOpt == idx ? 'border-brand-blue bg-blue-50' : 'border-slate-200'}`} placeholder={`Đáp án ${String.fromCharCode(65+idx)}`} value={idx===0?optA:idx===1?optB:idx===2?optC:optD} onChange={e => {
+                                                            if(idx===0) setOptA(e.target.value);
+                                                            if(idx===1) setOptB(e.target.value);
+                                                            if(idx===2) setOptC(e.target.value);
+                                                            if(idx===3) setOptD(e.target.value);
+                                                        }}/>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex gap-2 pt-2">
+                                                <button className="flex-1 bg-brand-blue text-white py-2 rounded-xl font-bold shadow-cartoon btn-cartoon">{editingId ? 'Cập nhật' : 'Lưu lại'}</button>
+                                                {editingId && <button type="button" onClick={resetForm} className="px-4 bg-slate-200 rounded-xl font-bold">Hủy</button>}
+                                            </div>
+                                            {status && <p className="text-center text-sm font-bold text-green-600">{status}</p>}
+                                         </form>
+                                    </div>
+                                    <div className="lg:col-span-2 space-y-3 h-[600px] overflow-y-auto pr-2">
+                                        {quizQuestions.map(q => (
+                                            <div key={q.id} className="bg-white border-2 border-slate-100 rounded-xl p-4 hover:shadow-md transition-shadow relative">
+                                                <div className="absolute top-2 right-2 flex gap-1">
+                                                     <button onClick={() => handleEdit(q)} className="text-blue-500 hover:bg-blue-50 p-1 rounded"><Edit size={16}/></button>
+                                                     <button onClick={() => handleDelete('quiz_questions', q.id)} className="text-red-500 hover:bg-red-50 p-1 rounded"><Trash2 size={16}/></button>
+                                                </div>
+                                                <span className="bg-slate-100 text-slate-500 text-xs font-bold px-2 py-0.5 rounded-full mb-2 inline-block">
+                                                    {quizCategories.find(c => c.id === q.categoryId)?.name || 'Chưa phân loại'}
+                                                </span>
+                                                <h4 className="font-bold text-slate-800 mb-2 pr-16">{q.question}</h4>
+                                                {q.image && <img src={q.image} className="h-20 object-cover rounded-lg mb-2 border border-slate-200" alt="Minh họa"/>}
+                                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                                    {q.options.map((opt, i) => (
+                                                        <div key={i} className={`p-2 rounded border ${i === q.correctOption ? 'bg-green-100 border-green-500 text-green-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-500'}`}>
+                                                            {String.fromCharCode(65+i)}. {opt}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {quizQuestions.length === 0 && <div className="text-center py-10 text-slate-400 font-bold border-2 border-dashed rounded-xl">Chưa có câu hỏi nào trong ngân hàng.</div>}
+                                    </div>
+                                </div>
+                             )}
+                        </div>
+                    )}
 
                     {activeTab === 'reports' ? (
                         <div className="space-y-4">
@@ -610,7 +776,7 @@
                             ))}
                             {reports.length === 0 && <p className="text-center text-slate-400 font-bold py-10">Chưa có báo cáo nào!</p>}
                         </div>
-                    ) : (
+                    ) : activeTab !== 'quiz' && (
                         <div className="grid lg:grid-cols-3 gap-6">
                             <div className="lg:col-span-1 space-y-4">
                                 <form onSubmit={handleSubmit} className="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
@@ -851,6 +1017,14 @@
             const [currentPage, setCurrentPage] = useState('home');
             const [user, setUser] = useState(null);
             useEffect(() => { const u = onAuthStateChanged(auth, setUser); return () => u(); }, []);
+
+            // --- FIX: Tự động chuyển vào trang Admin khi đăng nhập thành công ---
+            useEffect(() => {
+                if (user && currentPage === 'login') {
+                    setCurrentPage('admin');
+                }
+            }, [user, currentPage]);
+            // -------------------------------------------------------------------
 
             const renderContent = () => {
                 switch(currentPage) {
